@@ -8,6 +8,7 @@ import ResetPassword from './components/ResetPassword';
 import Dashboard from './components/Dashboard';
 import Users from './components/Users';
 import Notifications from './components/Notifications';
+import Tasks from './components/Tasks';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     
     <Router>
       <Routes>
-        <Route path="/" element={<Notifications />} />
+        <Route path="/" element={<Tasks />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
