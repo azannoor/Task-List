@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 function Login() {
-    
-  return(
+  return (
     <div className="flex h-screen">
       <div className="h-screen w-1/2 bg-[#4BCBEB]">
         <div className="mt-7 flex items-center justify-center">
@@ -64,12 +63,14 @@ function Login() {
                 </Link>
               </div>
             </div>
-            <button
-              className="px-2 py-2 w-80 bg-[#4BCBEB] rounded-lg text-white"
-              type="submit"
-            >
-              Login
-            </button>{" "}
+            <Link to="/Dashboard">
+              <button
+                className="px-2 py-2 w-80 bg-[#4BCBEB] rounded-lg text-white"
+                type="submit"
+              >
+                Login
+              </button>
+            </Link>{" "}
             <br></br>
             <Link to="/">
               <p className="mt-5 text-xs text-center ">

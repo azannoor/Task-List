@@ -18,8 +18,12 @@ function App() {
     
     <Router>
       <Routes>
-        <Route path="/" element={<Tasks />} />
+        <Route path="/" element={<Signup/>} />
         <Route path="/login" element={<Login />} />
+        <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='/users' element={<Users/>}/>
+        <Route path='/notifications' element={<Notifications/>}/>
+        <Route path='/tasks' element={<Tasks/>}/>
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
       </Routes>
