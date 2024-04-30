@@ -42,8 +42,8 @@ function Notifications() {
     const todayNotifications = notifications.filter((notification) => {
       const notificationDate = new Date(notification.dateTime);
       return notificationDate >= today;
-    });
-
+    }); 
+    
     const yesterdayNotifications = notifications.filter((notification) => {
       const notificationDate = new Date(notification.dateTime);
       return notificationDate >= yesterday && notificationDate < today;

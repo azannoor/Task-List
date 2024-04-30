@@ -7,28 +7,7 @@ function Modal({ onSubmit }) {
   function crossDisplay() {
     setCross(!cross);
   }
-  const modalData = [
-    {
-      title: "",
-      description: "",
-      attachment: "",
-      startDate: "",
-      endDate: "",
-    },
-  ];
-  function handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-    console.log(data)
-  }
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
+  
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
@@ -77,8 +56,7 @@ function Modal({ onSubmit }) {
                   type="text"
                   name="title"
                   placeholder="Enter Full Title"
-                  value={modalData.title}
-                  onChange={handleChange}
+                  
                   className="w-full border border-gray-300 rounded-md py-1 px-3"
                 />
               </div>
@@ -90,8 +68,7 @@ function Modal({ onSubmit }) {
                   type="text"
                   name="description"
                   placeholder="Enter Description Text"
-                  value={modalData.description}
-                  onChange={handleChange}
+                 
                   className="w-full border border-gray-300 rounded-md py-1 px-3"
                 />
               </div>
@@ -102,8 +79,7 @@ function Modal({ onSubmit }) {
               <input
                 type="file"
                 name="attachment"
-                value={modalData.attachemnt}
-                onChange={handleChange}
+             
                 className="w-full h-40 border border-gray-300 rounded-md py-1 px-3"
                 
               />
@@ -116,7 +92,7 @@ function Modal({ onSubmit }) {
                 className="w-full border border-gray-300 rounded-md py-1 px-3"
                 type="date"
                 name="startDate"
-                value={modalData.startDate}
+               
                 required
               ></input>
               <label className="block mb-1 font-bold">End Date:</label>
@@ -124,7 +100,7 @@ function Modal({ onSubmit }) {
                 className="w-full border border-gray-300 rounded-md py-1 px-3"
                 type="date"
                 name="endDate"
-                value={modalData.endDate}
+               
                 required
               ></input>
               <button

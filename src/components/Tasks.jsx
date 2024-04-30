@@ -24,6 +24,20 @@ function Tasks() {
     setSubmittedData([...submittedData, data]);
     setShowModal(false);
   }
+  const objectsArray = [
+    {
+        title: "Lorem ipsum",
+        description: "Lorem ipsum dolor sit amet consectetur. Malesuada nis i venenatis malesuada elit. Tortor viverra vitae arcu nibh in nullam. Leo lectus in at posuere velit.."
+    },
+    {
+        title: "Lorem ipsum",
+        description: "Lorem ipsum dolor sit amet consectetur. Malesuada nis i venenatis malesuada elit. Tortor viverra vitae arcu nibh in nullam. Leo lectus in at posuere velit.."
+    },
+    {
+        title: "Lorem ipsum",
+        description: "Lorem ipsum dolor sit amet consectetur. Malesuada nis i venenatis malesuada elit. Tortor viverra vitae arcu nibh in nullam. Leo lectus in at posuere velit.."
+    }
+];
 
   return (
     <div className="flex h-screen">
@@ -144,6 +158,9 @@ function Tasks() {
           <div className="mt-11 ml-14 grid grid-cols-4 gap-80 ">
             
             <div className="block w-[300px] h-[400px] border shadow-sm border-[#4BCBEB4D] rounded-xl ">
+              {/* {Tasks.map((item,index)=>{
+
+              })} */}
               <div className="h-[24px] bg-[#ED7176] font-bold  rounded-t-xl"></div>
               <div className="ml-7 mt-5">
                 <div className="flex">
@@ -182,85 +199,9 @@ function Tasks() {
                 </div>
               </div>
             </div>
-            <div className="block w-[300px] h-[400px] border shadow-sm border-[#4BCBEB4D] rounded-xl ">
-              <div className="h-[24px] bg-[#A3E47C] font-bold  rounded-t-xl"></div>
-              <div className="ml-7 mt-5">
-                <div className="flex">
-                  <div>
-                    <p className="font-bold">Title</p>
-                    <p className="text-sm">Lorem ipsum</p>
-                  </div>
-                  <svg
-                    className="ml-32"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.75 12C9.75 13.2405 10.7595 14.25 12 14.25C13.2405 14.25 14.25 13.2405 14.25 12C14.25 10.7595 13.2405 9.75 12 9.75C10.7595 9.75 9.75 10.7595 9.75 12ZM9.75 19.5C9.75 20.7405 10.7595 21.75 12 21.75C13.2405 21.75 14.25 20.7405 14.25 19.5C14.25 18.2595 13.2405 17.25 12 17.25C10.7595 17.25 9.75 18.2595 9.75 19.5ZM9.75 4.5C9.75 5.7405 10.7595 6.75 12 6.75C13.2405 6.75 14.25 5.7405 14.25 4.5C14.25 3.2595 13.2405 2.25 12 2.25C10.7595 2.25 9.75 3.2595 9.75 4.5Z"
-                      fill="#4BCBEB"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-3 font-bold">Description:</p>
-                <p className="text-xs">
-                  Lorem ipsum dolor sit amet consectetur. Malesuada nisi
-                  venenatis malesuada elit. Tortor viverra vitae arcu nibh in
-                  nullam. Leo lectus in at posuere velit.{" "}
-                </p>
+            
 
-                <p className="mt-3 font-bold">Attachement:</p>
-                <div className="mt-2 mr-9">
-                  <img
-                    src={imageOne}
-                    alt="Description of the image"
-                    className="h-24 w-60"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="block w-[300px] h-[400px] border shadow-sm border-[#4BCBEB4D] rounded-xl ">
-              <div className="h-[24px] bg-[#FF7800] font-bold  rounded-t-xl"></div>
-              <div className="ml-7 mt-5">
-                <div className="flex">
-                  <div>
-                    <p className="font-bold">Title</p>
-                    <p className="text-sm">Lorem ipsum</p>
-                  </div>
-                  <svg
-                    className="ml-32"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.75 12C9.75 13.2405 10.7595 14.25 12 14.25C13.2405 14.25 14.25 13.2405 14.25 12C14.25 10.7595 13.2405 9.75 12 9.75C10.7595 9.75 9.75 10.7595 9.75 12ZM9.75 19.5C9.75 20.7405 10.7595 21.75 12 21.75C13.2405 21.75 14.25 20.7405 14.25 19.5C14.25 18.2595 13.2405 17.25 12 17.25C10.7595 17.25 9.75 18.2595 9.75 19.5ZM9.75 4.5C9.75 5.7405 10.7595 6.75 12 6.75C13.2405 6.75 14.25 5.7405 14.25 4.5C14.25 3.2595 13.2405 2.25 12 2.25C10.7595 2.25 9.75 3.2595 9.75 4.5Z"
-                      fill="#4BCBEB"
-                    />
-                  </svg>
-                </div>
-                <p className="mt-3 font-bold">Description:</p>
-                <p className="text-xs">
-                  Lorem ipsum dolor sit amet consectetur. Malesuada nisi
-                  venenatis malesuada elit. Tortor viverra vitae arcu nibh in
-                  nullam. Leo lectus in at posuere velit.{" "}
-                </p>
-
-                <p className="mt-3 font-bold">Attachement:</p>
-                <div className="mt-2 mr-9">
-                  <img
-                    src={imageOne}
-                    alt="Description of the image"
-                    className="h-24 w-60"
-                  />
-                </div>
-              </div>
-            </div>
+           
           </div>
         </div>
         <div>{showModal && <Modal onSubmit={handleModalSubmit} />}</div>

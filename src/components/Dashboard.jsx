@@ -3,6 +3,7 @@ import Chart from "react-apexcharts";
 import { Link } from "react-router-dom";
 import Menu from "../Basic Components/Menu";
 import Header from "../Basic Components/Header";
+import Analytics from "../svg components/Analytics";
 const chartConfig = {
   type: "line",
   height: 240,
@@ -119,51 +120,23 @@ function Dashboard() {
                 <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
                   90/100
                 </div>
-                <svg
-                  className="mt-3 ml-3"
-                  width="201"
-                  height="20"
-                  viewBox="0 0 201 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect x="0.5" width="200" height="20" rx="4" fill="#DCDCDC" />
-                  <rect x="1" width="180" height="20" rx="4" fill="#4BCBEB" />
-                </svg>
+                <Analytics color="#4BCBEB"></Analytics>
               </div>
               <div className="w-[232px] h-[148px] bg-[#DCDCDC] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Completed Task</div>
                 <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
                   80/100
                 </div>
-                <svg
-                  className="mt-3 ml-3"
-                  width="201"
-                  height="20"
-                  viewBox="0 0 201 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect x="0.5" width="200" height="20" rx="4" fill="#DCDCDC" />
-                  <rect x="1" width="160" height="20" rx="4" fill="#5CB85C" />
-                </svg>
+                <Analytics color="#5CB85C"></Analytics>
+                
               </div>
               <div className="w-[232px] h-[148px] bg-[#FBEDD2] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Pending Task</div>
                 <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
                   50/100
                 </div>
-                <svg
-                  className="mt-3 ml-3"
-                  width="201"
-                  height="20"
-                  viewBox="0 0 201 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect x="0.5" width="200" height="20" rx="4" fill="#DCDCDC" />
-                  <rect x="1" width="100" height="20" rx="4" fill="#F0AD4E" />
-                </svg>
+                <Analytics color="#F0AD4E"></Analytics>
+                
               </div>
               <div className="w-[232px] h-[148px] bg-[#E0F6F4] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Decline Task</div>
