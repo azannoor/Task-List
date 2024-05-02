@@ -1,20 +1,22 @@
 import express from "express";
-const router = express.Router();
-import * as taskController from "../Controllers/taskController.js";
+import { Router } from "express";
+import * as notificationController from "../Controllers/notificationController.js";
 
-// Get all tasks
-router.get("/", taskController.getAllTasks);
+const router = Router();
 
-// Get a single task by ID
-router.get("/:id", taskController.getTaskById);
+// Get all notifications
+router.get("/", notificationController.getAllNotifications);
 
-// Create a new task
-router.post("/", taskController.createTask);
+// Get a single notification by ID
+router.get("/:id", notificationController.getNotificationById);
 
-// Update a task by ID
-router.put("/:id", taskController.updateTask);
+// Create a new notification
+router.post("/", notificationController.createNotification);
 
-// Delete a task by ID
-router.delete("/:id", taskController.deleteTask);
+// Update a notification by ID
+router.put("/:id", notificationController.updateNotification);
+
+// Delete a notification by ID
+router.delete("/:id", notificationController.deleteNotification);
 
 export default router;

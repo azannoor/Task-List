@@ -1,4 +1,4 @@
-import Task from "../Models/taskModel";
+import Task from "../Models/taskModel.js";
 
 // Get all tasks
 export const getAllTasks = async (req, res) => {
