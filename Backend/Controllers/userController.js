@@ -2,12 +2,24 @@ import User from '../Models/userModel.js'
 
 // Create a new user
 export const createUser = async (req, res) => {
-  res.send('register')
+  const user = new User(req.body);
+
+  try {
+    const newUser = await user.save();
+    res.status(201).json(newUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };
 
 // Get all users
 export const getAllUsers = async (req, res) => {
-  res.send('hello')
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 // Get a single user by ID
