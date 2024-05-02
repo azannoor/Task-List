@@ -1,5 +1,5 @@
 import express from 'express'
-import notFoundMiddleware from './middlewares/NotFound.js'
+import notFoundMiddleware from './middlewares/NotFound'
 import mongoose from 'mongoose'
 
 const app = express()
@@ -11,8 +11,9 @@ const app = express()
 app.get("/",(req,res)=>{
     res.send('welcome')
 })
-// //middleware
-// app.use(notFoundMiddleware)
+
+//middleware
+app.use(notFoundMiddleware)
 
 
 

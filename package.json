@@ -1,15 +1,13 @@
 {
   "name": "tasklist",
-  "proxy": "http://localhost:5000/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "start": "node server"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/react": "latest",
@@ -23,8 +21,6 @@
     "@mui/x-date-pickers": "latest",
     "apexcharts": "^3.48.0",
     "dayjs": "^1.11.10",
-    "express": "^4.19.2",
-    "mongoose": "^8.3.3",
     "postcss-cli": "^11.0.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
@@ -41,14 +37,8 @@
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "nodemon": "^3.1.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "vite": "^5.2.0"
-  },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "server.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
