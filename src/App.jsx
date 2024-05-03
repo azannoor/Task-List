@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Users from './components/Users';
 import Notifications from './components/Notifications';
 import Tasks from './components/Tasks';
+import Hello from './components/Hello'
 
 
 function App() {

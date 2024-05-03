@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite"
   },
   "dependencies": {
     "@emotion/react": "latest",
@@ -20,6 +21,7 @@
     "@mui/material": "next",
     "@mui/x-date-pickers": "latest",
     "apexcharts": "^3.48.0",
+    "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "postcss-cli": "^11.0.0",
     "react": "^18.2.0",

@@ -6,7 +6,7 @@ export const createUser = async (req, res) => {
   try {
     const newUser = await user.save();
     const token = newUser.createJWT()
-    res.status(201).json({newUser,token});
+    res.status(201).json({newUser:{email:newUser.email, name:newUser.name},token});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

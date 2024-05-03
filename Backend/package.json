@@ -7,12 +7,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "start": "set NODE_ENV=dev && node server.js"
+    "client": "npm start --prefix ../",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "set NODE_ENV=dev && nodemon server.js --ignore client"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -22,6 +25,7 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.0"
   }
 }
