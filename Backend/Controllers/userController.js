@@ -3,10 +3,10 @@ import User from '../Models/userModel.js'
 // Create a new user
 export const createUser = async (req, res) => {
   const user = new User(req.body);
-
   try {
     const newUser = await user.save();
-    res.status(201).json(newUser);
+    const token = newUser.createJWT()
+    res.status(201).json({newUser,token});
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
