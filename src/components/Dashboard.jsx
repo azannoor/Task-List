@@ -81,7 +81,9 @@ const chartConfig = {
 function Dashboard() {
   return (
     <div className="flex h-screen">
-      <Menu></Menu>
+      <div className="h-screen w-64 ">
+        <Menu></Menu>
+      </div>
 
       <div className="pl-[2px] w-10/12 bg-[#F6F8FA]">
         <Header name="Dashboard"></Header>

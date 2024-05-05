@@ -4,7 +4,7 @@ import TaskList from "../svg components/TaskList";
 
 const Menu = () => {
   return (
-    <div className="h-screen w-64 ">
+    <div className="h-screen w-64 fixed">
       <div className="mt-5 flex items-center justify-center">
         <TaskList></TaskList>
         <h1 className=" px-3 font-bold text-l text-[#4BCBEB]">

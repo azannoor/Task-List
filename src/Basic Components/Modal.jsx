@@ -1,8 +1,23 @@
 import { useState, React,useEffect } from "react";
+import axios from 'axios'
+import { useNavigate} from "react-router-dom";
+import PropTypes from 'prop-types';
 
-function Modal({ onSubmit }) {
-  const [data, setData] = useState();
+function Modal({onSubmit}) {
+
+  
   const [cross, setCross] = useState(true);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [data, setData] = useState({
+    title: "",
+    description: "",
+    startDate: "",
+    endDate:""
+  });
+  const navigate = useNavigate()
 
   function crossDisplay() {
     setCross(!cross);
@@ -10,8 +25,16 @@ function Modal({ onSubmit }) {
   
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
-    onSubmit(data);
+    axios.post('http://localhost:3000/api/tasks/addTasks',{title,description,startDate,endDate})
+    .then(result => {
+      const newData = { title, description, startDate, endDate };
+      setData(newData); // Update the state with the new data
+    onSubmit(newData);
+      console.log(result)
+      
+    })
+    .catch(err => console.log(err));
+    
   };
 
   return (
@@ -56,7 +79,8 @@ function Modal({ onSubmit }) {
                   type="text"
                   name="title"
                   placeholder="Enter Full Title"
-                  
+                  value={title}
+                onChange={(e) => setTitle(e.target.value)}
                   className="w-full border border-gray-300 rounded-md py-1 px-3"
                 />
               </div>
@@ -68,7 +92,8 @@ function Modal({ onSubmit }) {
                   type="text"
                   name="description"
                   placeholder="Enter Description Text"
-                 
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="w-full border border-gray-300 rounded-md py-1 px-3"
                 />
               </div>
@@ -92,7 +117,8 @@ function Modal({ onSubmit }) {
                 className="w-full border border-gray-300 rounded-md py-1 px-3"
                 type="date"
                 name="startDate"
-               
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
                 required
               ></input>
               <label className="block mb-1 font-bold">End Date:</label>
@@ -100,7 +126,8 @@ function Modal({ onSubmit }) {
                 className="w-full border border-gray-300 rounded-md py-1 px-3"
                 type="date"
                 name="endDate"
-               
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
                 required
               ></input>
               <button
@@ -116,4 +143,7 @@ function Modal({ onSubmit }) {
     </>
   );
 }
+Modal.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 export default Modal;

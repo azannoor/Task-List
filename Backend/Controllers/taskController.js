@@ -26,13 +26,24 @@ export const getTaskById = async (req, res) => {
 
 // Create a new task
 export const createTask = async (req, res) => {
-  const task = new Task({
-    title: req.body.title,
-    description: req.body.description,
-    // Add other task properties here
-  });
+  const { title, description, startDate, endDate } = req.body;
+  
+
+  // Validate input
+  if (!title || !description || !startDate || !endDate) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
   try {
+    
+      const task = new Task({
+        title,
+        description,
+        startDate,
+        endDate,
+        
+        // Add other task properties here
+      });
     const newTask = await task.save();
     res.status(201).json(newTask);
   } catch (err) {
