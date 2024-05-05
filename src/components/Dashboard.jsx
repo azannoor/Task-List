@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import { Link } from "react-router-dom";
+
 import Menu from "../Basic Components/Menu";
 import Header from "../Basic Components/Header";
 import Analytics from "../svg components/Analytics";

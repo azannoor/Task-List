@@ -1,5 +1,5 @@
 import User from '../Models/userModel.js'
-
+import bcrypt from 'bcrypt'
 // Create a new user
 export const createUser = async (req, res) => {
   const user = new User(req.body);
@@ -71,3 +71,28 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+export const loginUser = async(req,res)=>{
+  const {email,password} = req.body
+
+  try{
+    const user = await User.findOne({email:email}).select('+password')
+    if(!user){
+      return res.status(401).json({message:"Login failed"})
+    }
+    const isPasswordValid = await bcrypt.compare(password,user.password)
+
+    if(!isPasswordValid){
+      return res.status(401).json({message:"invalid email or pass"})
+    }
+
+    const token = user.createJWT()
+    res.status(200).json({user:{email:user.email, name:user.name},token});
+  }
+  catch(err){
+    res.status(500).json({message:err.message})
+  }
+  
+
+}
