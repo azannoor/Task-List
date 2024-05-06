@@ -1,26 +1,17 @@
-import React from 'react'
-import { useEffect } from 'react'
+
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 function Hello() {
-    const fetchData = async ()=>{
-        try{
-          const response = await fetch('http://localhost:3000/')
-          const data = await response.json()
-          console.log(data)
-        } catch(error){
-          console.log(error)
-        }
-      }
-      useEffect(()=>{
-        fetchData()
-      },[])
-      
   return (
-    <div>
-        <h1>Dashboard</h1>
-    </div>
-    
-  )
+    <Stack spacing={2}>
+      <Pagination count={10} />
+      <Pagination count={10} color="primary" />
+      <Pagination count={10} color="secondary" />
+      <Pagination count={10} disabled />
+    </Stack>
+  );
 }
+
 
 export default Hello

@@ -26,14 +26,6 @@ function Tasks() {
     return colors[randomIndex];
   };
 
-  function handleClick() {
-    setShowImage(!showImage);
-  }
-
-  function display() {
-    setShowModal(!showModal);
-  }
-
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -52,15 +44,14 @@ function Tasks() {
   }
 
   function handleModalSubmit(data) {
-    data.preventDefault();
-    axios
-      .post("http://localhost:3000/api/tasks/addTasks", data)
-      .then((response) => {
-        setSubmittedData([...submittedData, data]);
+    axios.post('http://localhost:3000/api/tasks/addTasks', data)
+      .then(response => {
+        setSubmittedData([...submittedData, data]); // Update frontend state with the new task
+        setFilteredTasks([...filteredTasks, data]); // Update filtered tasks to include the new task
         setShowModal(false);
       })
-      .catch((error) => {
-        console.error("Error adding task:", error);
+      .catch(error => {
+        console.error('Error adding task:', error);
       });
   }
 
@@ -115,7 +106,7 @@ function Tasks() {
                 required
               />
             </div>
-            <button className="h-10 ml-auto" onClick={display}>
+            <button className="h-10 ml-auto" onClick={() => setShowModal(true)}>
               <AddTask />
             </button>
           </div>

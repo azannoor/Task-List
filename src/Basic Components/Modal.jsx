@@ -1,23 +1,16 @@
-import { useState,  } from "react";
-import axios from 'axios'
-
+import React, { useState } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-function Modal({onSubmit}) {
-
-  
+function Modal({ onSubmit }) {
   const [cross, setCross] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [data, setData] = useState({
-    title: "",
-    description: "",
-    startDate: "",
-    endDate:""
-  });
-
+  const [loading, setLoading] = useState(false); // Add loading state
 
   function crossDisplay() {
     setCross(!cross);
@@ -25,16 +18,18 @@ function Modal({onSubmit}) {
   
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3000/api/tasks/addTasks',{title,description,startDate,endDate})
-    .then(result => {
-      const newData = { title, description, startDate, endDate };
-      setData(newData); // Update the state with the new data
-    onSubmit(newData);
-      console.log(result)
-      
-    })
-    .catch(err => console.log(err));
-    
+    setLoading(true); // Set loading to true on form submission
+    axios.post('http://localhost:3000/api/tasks/addTasks', { title, description, startDate, endDate })
+      .then(result => {
+        const newData = { title, description, startDate, endDate };
+        onSubmit(newData);
+        setLoading(false); // Set loading to false after successful submission
+        console.log(result)
+      })
+      .catch(err => {
+        setLoading(false); // Set loading to false if submission is unsuccessful
+        console.log(err);
+      });
   };
 
   return (
@@ -65,11 +60,11 @@ function Modal({onSubmit}) {
               </button>
             </div>
             <div className="ml-14 mr-14 items-center justify-center">
-            <p className="text-xs text-[#888888] text-center justify-center">
-              Fill the information below to add new task as per <br></br>your requirment.
-            </p>
+              <p className="text-xs text-[#888888] text-center justify-center">
+                Fill the information below to add new task as per <br></br>your requirement.
+              </p>
             </div>
-           
+
             <form onSubmit={handleFormSubmit}>
               <div className="mb-4">
                 <label htmlFor="title" className="block mb-1 font-bold">
@@ -80,7 +75,7 @@ function Modal({onSubmit}) {
                   name="title"
                   placeholder="Enter Full Title"
                   value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                   className="w-full border border-gray-300 rounded-md py-1 px-3"
                 />
               </div>
@@ -112,7 +107,7 @@ function Modal({onSubmit}) {
                 <p className="text-xs text-[#888888]">Supported Format: PNG,JPG</p>
                 <p className="text-xs ml-36 text-[#888888]">Maximum size: 5mb</p>
               </div>
-              <label className="block mb-1 font-bold">Start Date:</label>
+              <label className="block mb-2 mt-3 font-bold">Start Date:</label>
               <input
                 className="w-full border border-gray-300 rounded-md py-1 px-3"
                 type="date"
@@ -121,7 +116,7 @@ function Modal({onSubmit}) {
                 onChange={(e) => setStartDate(e.target.value)}
                 required
               ></input>
-              <label className="block mb-1 font-bold">End Date:</label>
+              <label className="block mb-2 font-bold">End Date:</label>
               <input
                 className="w-full border border-gray-300 rounded-md py-1 px-3"
                 type="date"
@@ -130,11 +125,19 @@ function Modal({onSubmit}) {
                 onChange={(e) => setEndDate(e.target.value)}
                 required
               ></input>
+              {/* Submit button with loading spinner */}
               <button
-                type="submit"
-                className="bg-blue-500 text-white py-2 px-4 ml-48 mt-2 rounded-md"
-              >
-                Submit
+  type="submit"
+  className="bg-blue-500 text-white py-2 px-4 ml-40 mt-3 rounded-md relative"
+  style={{ width: "100px", height: "40px" }} // Set fixed dimensions for the button
+  disabled={loading} // Disable button when loading is true
+>
+  {loading && (
+    <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+      <FontAwesomeIcon icon={faSpinner} className="fa-spin text-white" />
+    </div>
+  )}
+                {!loading && "Submit"}
               </button>
             </form>
           </div>
@@ -143,7 +146,9 @@ function Modal({onSubmit}) {
     </>
   );
 }
+
 Modal.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
+
 export default Modal;

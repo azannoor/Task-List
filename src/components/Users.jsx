@@ -3,27 +3,29 @@ import Menu from "../Basic Components/Menu";
 import Header from "../Basic Components/Header";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import TablePagination from '@mui/material/TablePagination';
 
 function Users() {
   const [userData, setUserData] = useState([]);
-  const [userNames, setUserNames] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Track the current page
 
- 
+  const itemsPerPage = 6; // Number of items per page
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   const fetchUserData = async () => {
     try {
       const tasksResponse = await axios.get("http://localhost:3000/api/tasks");
       const userResponse = await axios.get("http://localhost:3000/api/users");
       setUserData(tasksResponse.data);
-      setUserNames(userResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-
-  
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -36,6 +38,17 @@ function Users() {
     const diffInMs = end - start;
     const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
     return diffInDays;
+  };
+
+  // Calculate index of the first and last items of the current page
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // Slice the data to display only the items for the current page
+  const currentItems = userData.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value); // Update current page
   };
 
   return (
@@ -55,9 +68,8 @@ function Users() {
             <h1 className="px-7 text-lg font-medium">End Date</h1>
             <h1 className="text-lg font-medium">OverDue day</h1>
           </div>
-          <div className="overflow-y-auto h-[450px]">
-            
-            {userData.map((item, index) => {
+          <div className=" h-[450px]">
+            {currentItems.map((item, index) => {
               return (
                 <div key={index} className="mb-3 py-3 flex border-b space-x-28">
                   <div className="w-32">{item.name}</div>
@@ -83,6 +95,9 @@ function Users() {
                 </div>
               );
             })}
+            <div className="mt-9 flex justify-center">
+              <Pagination count={Math.ceil(userData.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
+            </div>
           </div>
         </div>
       </div>

@@ -160,8 +160,8 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="ml-9 flex flex-col md:flex-row gap-4">
-            <Card>
+          <div className="ml-9 flex flex-col md:flex-row gap-60">
+            <Card className="shadow-none">
               <h1 className="ml-5 font-bold text-xl">Total Task Ratio</h1>
               <CardHeader
                 floated={false}
