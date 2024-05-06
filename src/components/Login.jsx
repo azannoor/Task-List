@@ -1,32 +1,38 @@
 import { Link } from "react-router-dom";
 import signIn from '../assets/images/SignIn.jpg';
-
 import Email from "../svg components/Email";
 import PassLock from "../svg components/PassLock";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
-  
- const [email, setEmail] = useState("");
- const [password, setPassword] = useState("");
-const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
+
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading to true on form submission
     axios.post('http://localhost:3000/api/users/login',{email,password})
       .then(result => {
-        
-        navigate('/dashboard')
-        console.log(result)
+        navigate('/dashboard');
+        console.log(result);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        setLoading(false); // Set loading to false if login is unsuccessful
+        console.log(err);
+      });
   };
+
   return (
     <div className="flex flex-wrap h-screen">
       <div className="h-screen w-full md:w-1/2 bg-[#4BCBEB]">
         <div className="mt-7 flex items-center justify-center">
-          <img src={signIn} className="mx-auto w-80 py-28" alt="Sign In"></img>
+          <img src={signIn} className="mx-auto w-80 py-28" alt="Sign In" />
         </div>
       </div>
 
@@ -43,7 +49,7 @@ const navigate = useNavigate()
               </div>
             </div>
             <input
-              className=" px-11 py-3 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 rounded-md sm:text-sm focus:ring-1"
+              className="px-11 py-3 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 rounded-md sm:text-sm focus:ring-1"
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -77,10 +83,17 @@ const navigate = useNavigate()
               </div>
             </div>
             <button
-              className="px-2 py-2 w-full bg-[#4BCBEB] rounded-lg text-white"
+              className="px-2  w-full bg-[#4BCBEB] rounded-lg text-white relative"
               type="submit"
+              disabled={loading} // Disable button when loading is true
+              style={{ minHeight: "45px" }} // Ensure button maintains its height
             >
-              Login
+              {loading && (
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <FontAwesomeIcon icon={faSpinner} className="fa-spin text-white" />
+                </div>
+              )}
+              {!loading && "Login"}
             </button>
             <br />
             <Link to="/" className="block text-center mt-5">

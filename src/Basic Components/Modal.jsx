@@ -1,6 +1,6 @@
-import { useState, React,useEffect } from "react";
+import { useState,  } from "react";
 import axios from 'axios'
-import { useNavigate} from "react-router-dom";
+
 import PropTypes from 'prop-types';
 
 function Modal({onSubmit}) {
@@ -17,7 +17,7 @@ function Modal({onSubmit}) {
     startDate: "",
     endDate:""
   });
-  const navigate = useNavigate()
+
 
   function crossDisplay() {
     setCross(!cross);
