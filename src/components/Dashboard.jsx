@@ -4,7 +4,7 @@ import Chart from "react-apexcharts";
 import Menu from "../Basic Components/Menu";
 import Header from "../Basic Components/Header";
 import Analytics from "../svg components/Analytics";
-import Caldendar from '../Basic Components/Calendar';
+import Caldendar from "../Basic Components/Calendar";
 
 const chartConfig = {
   type: "line",
@@ -87,9 +87,9 @@ function Dashboard() {
         <Menu></Menu>
       </div>
 
-      <div className="pl-[2px] w-10/12 bg-[#F6F8FA]">
+      <div className="pl-[2px] w-full md:w-10/12 bg-[#F6F8FA]">
         <Header name="Dashboard"></Header>
-        <div className=" mt-11 ml-11 w-[1150px] h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md">
+        <div className="mt-11 ml-11  w-full md:w-[1150px] h-auto md:h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md">
           <div className="flex h-[60px] w-full ">
             <p className="mt-[25.46px] pl-14 font-bold text-2xl text-black">
               Analytics
@@ -118,7 +118,7 @@ function Dashboard() {
             xmlns="http://www.w3.org/2000/svg"
           ></svg>
           <div className="ml-14 mr-14">
-            <div className="ml-11 py-7 grid grid-cols-4 ">
+            <div className="ml-11 py-7 grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="block w-[232px] h-[148px] bg-[#F4F2FF] rounded-xl ">
                 <div className="mt-3 ml-3 font-bold">Total Task</div>
                 <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
@@ -132,7 +132,6 @@ function Dashboard() {
                   80/100
                 </div>
                 <Analytics color="#5CB85C"></Analytics>
-                
               </div>
               <div className="w-[232px] h-[148px] bg-[#FBEDD2] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Pending Task</div>
@@ -140,7 +139,6 @@ function Dashboard() {
                   50/100
                 </div>
                 <Analytics color="#F0AD4E"></Analytics>
-                
               </div>
               <div className="w-[232px] h-[148px] bg-[#E0F6F4] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Decline Task</div>
@@ -161,11 +159,10 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          
-          <div className="ml-9 flex gap-60">
-            
+
+          <div className="ml-9 flex flex-col md:flex-row gap-4">
             <Card>
-            <h1 className="ml-5 font-bold text-xl">Total Task Ratio</h1>
+              <h1 className="ml-5 font-bold text-xl">Total Task Ratio</h1>
               <CardHeader
                 floated={false}
                 shadow={false}
@@ -176,7 +173,7 @@ function Dashboard() {
                 <Chart {...chartConfig} />
               </CardBody>
             </Card>
-            <Caldendar/>
+            <Caldendar />
           </div>
         </div>
       </div>

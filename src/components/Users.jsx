@@ -8,7 +8,7 @@ function Users() {
   const [userData, setUserData] = useState([]);
   const [userNames, setUserNames] = useState([]);
 
-  // Function to fetch user data from the backend
+ 
   const fetchUserData = async () => {
     try {
       const tasksResponse = await axios.get("http://localhost:3000/api/tasks");
@@ -20,7 +20,7 @@ function Users() {
     }
   };
 
-  // useEffect hook to fetch user data when the component mounts
+  
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -48,15 +48,15 @@ function Users() {
         <Header name="Users"></Header>
         <div className="mt-11 ml-11 w-[1150px] h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md truncate">
           <h1 className="m-5 font-bold text-2xl">Online User</h1>
-          <div className="ml-5 mb-5 flex space-x-32">
+          <div className="ml-4 mb-5 flex space-x-28">
             <h1 className="text-lg font-medium">Customer Name</h1>
             <h1 className="text-lg font-medium">Project Name</h1>
-            <h1 className="text-lg font-medium">Start Date</h1>
-            <h1 className="px-5 text-lg font-medium">End Date</h1>
+            <h1 className="px-3 text-lg font-medium">Start Date</h1>
+            <h1 className="px-7 text-lg font-medium">End Date</h1>
             <h1 className="text-lg font-medium">OverDue day</h1>
           </div>
           <div className="overflow-y-auto h-[450px]">
-            {/* Here we added a fixed height and overflow-y-auto class */}
+            
             {userData.map((item, index) => {
               return (
                 <div key={index} className="mb-3 py-3 flex border-b space-x-28">
