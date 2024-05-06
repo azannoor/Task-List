@@ -12,6 +12,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); // Add loading state
+  const [error, setError] = useState(""); // Add error state
   const navigate = useNavigate();
 
   const onSubmit = (e) => {
@@ -24,6 +25,7 @@ function Login() {
       })
       .catch(err => {
         setLoading(false); // Set loading to false if login is unsuccessful
+        setError("Incorrect email or password."); // Set error message
         console.log(err);
       });
   };
@@ -73,6 +75,9 @@ function Login() {
               required
             />
             <br />
+            <div className="pb-2 text-red-500">
+              {error && <span className="ml-3 text-[11px]">{error}</span>} {/* Display error message */}
+            </div>
             <div className="pb-10 pt-4">
               <div className="flex items-center">
                 <input className="mr-2 h-5 w-4" type="checkbox" />

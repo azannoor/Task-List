@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-  // Other user properties
+  
 });
 userSchema.pre('save',async function(){
   const salt = await bcrypt.genSalt(10)

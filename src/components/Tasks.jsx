@@ -40,7 +40,7 @@ function Tasks() {
       .then(response => {
         const tasks = response.data;
         setSubmittedData(tasks);
-        setFilteredTasks(tasks);// Assuming the response data is an array of tasks
+        setFilteredTasks(tasks);
       })
       .catch(error => {
         console.error('Error fetching tasks:', error);
@@ -51,7 +51,7 @@ function Tasks() {
     data.preventDefault()
     axios.post('http://localhost:3000/api/tasks/addTasks', data)
       .then(response => {
-        setSubmittedData([...submittedData, data]); // Update frontend state with the new task
+        setSubmittedData([...submittedData, data]); 
         console.log(response)
         setShowModal(false);
       })

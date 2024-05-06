@@ -1,6 +1,6 @@
 import User from '../Models/userModel.js'
 import bcrypt from 'bcrypt'
-// Create a new user
+
 export const createUser = async (req, res) => {
   const user = new User(req.body);
   try {
@@ -12,7 +12,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-// Get all users
+
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
@@ -22,7 +22,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// Get a single user by ID
+
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -38,14 +38,13 @@ export const getUserById = async (req, res) => {
 
 
 
-// Update a user by ID
 export const updateUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (user) {
       user.username = req.body.username || user.username;
       user.email = req.body.email || user.email;
-      // Update other user properties here
+      
 
       const updatedUser = await user.save();
       res.json(updatedUser);
@@ -57,7 +56,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// Delete a user by ID
+
 export const deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);

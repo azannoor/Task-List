@@ -1,6 +1,6 @@
 import Task from "../Models/taskModel.js";
 
-// Get all tasks
+
 export const getAllTasks = async (req, res) => {
   try {
     const tasks = await Task.find();
@@ -10,7 +10,7 @@ export const getAllTasks = async (req, res) => {
   }
 };
 
-// Get a single task by ID
+
 export const getTaskById = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
@@ -24,12 +24,12 @@ export const getTaskById = async (req, res) => {
   }
 };
 
-// Create a new task
+
 export const createTask = async (req, res) => {
   const { title, description, startDate, endDate } = req.body;
   
 
-  // Validate input
+  
   if (!title || !description || !startDate || !endDate) {
     return res.status(400).json({ message: "All fields are required" });
   }

@@ -18,7 +18,7 @@ const taskSchema = new mongoose.Schema({
     required: true
   }
   
-  // Other task properties
+ 
 });
 
 const Task = mongoose.model("Task", taskSchema);

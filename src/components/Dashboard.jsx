@@ -4,6 +4,8 @@ import Chart from "react-apexcharts";
 import Menu from "../Basic Components/Menu";
 import Header from "../Basic Components/Header";
 import Analytics from "../svg components/Analytics";
+import Caldendar from '../Basic Components/Calendar';
+
 const chartConfig = {
   type: "line",
   height: 240,
@@ -159,9 +161,11 @@ function Dashboard() {
               </div>
             </div>
           </div>
-          <h1 className="ml-5 font-bold text-xl">Total Task Ratio</h1>
-          <div className="flex">
+          
+          <div className="ml-9 flex gap-60">
+            
             <Card>
+            <h1 className="ml-5 font-bold text-xl">Total Task Ratio</h1>
               <CardHeader
                 floated={false}
                 shadow={false}
@@ -172,6 +176,7 @@ function Dashboard() {
                 <Chart {...chartConfig} />
               </CardBody>
             </Card>
+            <Caldendar/>
           </div>
         </div>
       </div>
