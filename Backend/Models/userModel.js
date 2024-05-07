@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
-  
+  role: {
+    type: String,
+    enum: ["ADMIN", "USER"],
+    required: true,
+  },
 });
 userSchema.pre('save',async function(){
   const salt = await bcrypt.genSalt(10)

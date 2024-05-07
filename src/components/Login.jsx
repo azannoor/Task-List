@@ -11,21 +11,21 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // Add loading state
-  const [error, setError] = useState(""); // Add error state
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(""); 
   const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading to true on form submission
+    setLoading(true); 
     axios.post('http://localhost:3000/api/users/login',{email,password})
       .then(result => {
         navigate('/dashboard');
         console.log(result);
       })
       .catch(err => {
-        setLoading(false); // Set loading to false if login is unsuccessful
-        setError("Incorrect email or password."); // Set error message
+        setLoading(false); 
+        setError("Incorrect email or password."); 
         console.log(err);
       });
   };
@@ -75,8 +75,8 @@ function Login() {
               required
             />
             <br />
-            <div className="pb-2 text-red-500">
-              {error && <span className="ml-3 text-[11px]">{error}</span>} {/* Display error message */}
+            <div className="pb-2">
+              {error && <span className="ml-3 text-red-500 text-xs">{error}</span>} {/* Display error message */}
             </div>
             <div className="pb-10 pt-4">
               <div className="flex items-center">
@@ -90,8 +90,7 @@ function Login() {
             <button
               className="px-2  w-full bg-[#4BCBEB] rounded-lg text-white relative"
               type="submit"
-              disabled={loading} // Disable button when loading is true
-              style={{ minHeight: "45px" }} // Ensure button maintains its height
+              style={{ minHeight: "45px" }} 
             >
               {loading && (
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

@@ -6,12 +6,16 @@ import Modal from "../Basic Components/Modal";
 import Notification from "../svg components/Notification";
 import User from "../svg components/User";
 import AddTask from "../svg components/AddTask";
+import { getRole } from "../utils/GetRole";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 function Tasks() {
   const [submittedData, setSubmittedData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTasks, setFilteredTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // State to track loading
 
   const colors = [
     "bg-red-500",
@@ -31,6 +35,7 @@ function Tasks() {
   }, []);
 
   function fetchTasks() {
+    setIsLoading(true); // Start loading
     axios
       .get("http://localhost:3000/api/tasks")
       .then((response) => {
@@ -40,14 +45,17 @@ function Tasks() {
       })
       .catch((error) => {
         console.error("Error fetching tasks:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); // End loading
       });
   }
 
   function handleModalSubmit(data) {
     axios.post('http://localhost:3000/api/tasks/addTasks', data)
       .then(response => {
-        setSubmittedData([...submittedData, data]); // Update frontend state with the new task
-        setFilteredTasks([...filteredTasks, data]); // Update filtered tasks to include the new task
+        setSubmittedData([...submittedData, data]); 
+        setFilteredTasks([...filteredTasks, data]); 
         setShowModal(false);
       })
       .catch(error => {
@@ -106,9 +114,11 @@ function Tasks() {
                 required
               />
             </div>
-            <button className="h-10 ml-auto" onClick={() => setShowModal(true)}>
-              <AddTask />
-            </button>
+            {
+              getRole() !== "Admin" && <button className="h-10 ml-auto" onClick={() => setShowModal(true)}>
+                <AddTask />
+              </button>
+            }
           </div>
           <h1 className="mt-5 font-bold">Enter Title:</h1>
           <div className="flex">
@@ -124,6 +134,13 @@ function Tasks() {
               Search
             </button>
           </div>
+          {isLoading && (
+  <div className="flex justify-center items-center min-h-screen">
+    <div className="absolute top-[450px]">
+      <CircularProgress />
+    </div>
+  </div>
+)}
         </div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-11 px-4 md:px-16">
           {filteredTasks.map((item, index) => (

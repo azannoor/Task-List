@@ -6,10 +6,12 @@ import axios from 'axios';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import TablePagination from '@mui/material/TablePagination';
+import { CircularProgress } from '@mui/material';
 
 function Users() {
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
+  const [isLoading, setIsLoading] = useState(false);
 
   const itemsPerPage = 6; // Number of items per page
 
@@ -18,12 +20,15 @@ function Users() {
   }, []);
 
   const fetchUserData = async () => {
+    setIsLoading(true);
     try {
       const tasksResponse = await axios.get("http://localhost:3000/api/tasks");
       const userResponse = await axios.get("http://localhost:3000/api/users");
       setUserData(tasksResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally{
+      setIsLoading(false)
     }
   };
 
@@ -40,15 +45,15 @@ function Users() {
     return diffInDays;
   };
 
-  // Calculate index of the first and last items of the current page
+ 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  // Slice the data to display only the items for the current page
+  
   const currentItems = userData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value); // Update current page
+    setCurrentPage(value); 
   };
 
   return (
@@ -68,6 +73,13 @@ function Users() {
             <h1 className="px-7 text-lg font-medium">End Date</h1>
             <h1 className="text-lg font-medium">OverDue day</h1>
           </div>
+          {isLoading && (
+  <div className="flex justify-center items-center min-h-screen">
+    <div className="absolute top-[250px]">
+      <CircularProgress />
+    </div>
+  </div>
+)}
           <div className=" h-[450px]">
             {currentItems.map((item, index) => {
               return (

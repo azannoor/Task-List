@@ -6,17 +6,17 @@ function Notifications() {
     {
       message: "Pending Task",
       detail: "You are going to kashmir",
-      dateTime: "2024-04-28T10:30:00Z",
+      dateTime: "2024-05-07T10:30:00Z",
     },
     {
       message: "Due Task Date",
       detail: "Please do the work",
-      dateTime: "2024-04-27T12:30:00Z",
+      dateTime: "2024-05-07T12:30:00Z",
     },
     {
       message: "Pending Task",
       detail: "You have to submit the task",
-      dateTime: "2024-04-29T10:00:00Z",
+      dateTime: "2024-05-T10:00:00Z",
     },
     {
       message: "Task completed",
@@ -92,7 +92,8 @@ function Notifications() {
 
           <div>
             <h1 className="mt-5 text-[#9A9EA5] text-2xl">Today</h1>
-            <div>
+            {todayNotifications.length > 0 && (
+              <div>
               {todayNotifications.map((notification, index) => {
                 return (
                   <div key={index} className="mt-3 ml-3 flex gap-x-3">
@@ -157,10 +158,18 @@ function Notifications() {
                   </div>
                 );
               })}
+              {todayNotifications.length === 0 && (
+            <p className="mt-5 text-[#9A9EA5] text-lg">
+              There are no notifications from today.
+            </p>
+          )}
             </div>
+            )}
+            
 
             <h1 className="mt-5 text-[#9A9EA5] text-2xl">Yesterday</h1>
-            <div>
+            {yesterdayNotifications.length > 0 && (
+              <div>
               {yesterdayNotifications.map((notification, index) => {
                 return (
                   <div key={index} className=" mt-3 ml-8 flex gap-x-3">
@@ -209,9 +218,19 @@ function Notifications() {
                 );
               })}
             </div>
+            )}
+             {yesterdayNotifications.length === 0 && (
+            <p className="mt-5 text-[#9A9EA5] text-lg">
+              There are no notifications from yesterday.
+            </p>
+          )}
+
+
 
             <h1 className="mt-5 text-[#9A9EA5] text-2xl">Rest</h1>
-            <div>
+
+            {restNotifications.length > 0 && (
+              <div>
               {restNotifications.map((notification, index) => {
                 return (
                   <div key={index} className="mt-3 ml-8 flex gap-x-3">
@@ -260,6 +279,13 @@ function Notifications() {
                 );
               })}
             </div>
+            )}
+            {restNotifications.length === 0 && (
+            <p className="mt-5 text-[#9A9EA5] text-lg">
+              There are no notifications from the rest.
+            </p>
+          )}
+            
           </div>
         </div>
       </div>
