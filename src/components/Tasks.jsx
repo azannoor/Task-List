@@ -7,7 +7,8 @@ import Notification from "../svg components/Notification";
 import User from "../svg components/User";
 import AddTask from "../svg components/AddTask";
 import { getRole } from "../utils/GetRole";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
+import Todo from "../Basic Components/Todo";
 
 
 function Tasks() {
@@ -16,6 +17,13 @@ function Tasks() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State to track loading
+
+  const [showTodo, setShowTodo] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const handleClick = (taskId) => {
+    setSelectedTaskId(taskId);
+  };
+  
 
   const colors = [
     "bg-red-500",
@@ -52,16 +60,57 @@ function Tasks() {
   }
 
   function handleModalSubmit(data) {
-    axios.post('http://localhost:3000/api/tasks/addTasks', data)
-      .then(response => {
-        setSubmittedData([...submittedData, data]); 
-        setFilteredTasks([...filteredTasks, data]); 
+    axios
+      .post("http://localhost:3000/api/tasks/addTasks", data)
+      .then((response) => {
+        setSubmittedData([...submittedData, data]);
+        setFilteredTasks([...filteredTasks, data]);
         setShowModal(false);
       })
-      .catch(error => {
-        console.error('Error adding task:', error);
+      .catch((error) => {
+        console.error("Error adding task:", error);
       });
   }
+
+ 
+  const handleDeleteTask = (taskId) => {
+    axios
+        .delete(`http://localhost:3000/api/tasks/${taskId}`)
+        .then((response) => {
+            // Remove the deleted task from UI
+            console.log(response)
+            const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
+            setFilteredTasks(updatedTasks);
+            // Close Todo component if the deleted task is the one being displayed
+            if (selectedTaskId === taskId) {
+              setSelectedTaskId(null);
+            }
+        })
+        .catch((error) => {
+            console.error("Error deleting task:", error);
+        });
+};
+
+const handleTodoDelete = () => {
+    if (selectedTaskId) {
+        handleDeleteTask(selectedTaskId);
+    }
+};
+
+const handleTodoClose = () => {
+    
+    setSelectedTaskId(null);
+};
+
+const handleTodoClick = (taskId) => {
+  if (selectedTaskId === taskId) {
+      // If the same task is clicked again, close the Todo component
+      setSelectedTaskId(null);
+  } else {
+      // If a different task is clicked, open the Todo component for that task
+      setSelectedTaskId(taskId);
+  }
+};
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -114,11 +163,14 @@ function Tasks() {
                 required
               />
             </div>
-            {
-              getRole() !== "Admin" && <button className="h-10 ml-auto" onClick={() => setShowModal(true)}>
+            {getRole() !== "Admin" && (
+              <button
+                className="h-10 ml-auto"
+                onClick={() => setShowModal(true)}
+              >
                 <AddTask />
               </button>
-            }
+            )}
           </div>
           <h1 className="mt-5 font-bold">Enter Title:</h1>
           <div className="flex">
@@ -135,12 +187,12 @@ function Tasks() {
             </button>
           </div>
           {isLoading && (
-  <div className="flex justify-center items-center min-h-screen">
-    <div className="absolute top-[450px]">
-      <CircularProgress />
-    </div>
-  </div>
-)}
+            <div className="flex justify-center items-center min-h-screen">
+              <div className="absolute top-[450px]">
+                <CircularProgress />
+              </div>
+            </div>
+          )}
         </div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-11 px-4 md:px-16">
           {filteredTasks.map((item, index) => (
@@ -149,20 +201,24 @@ function Tasks() {
 
               <div className="flex">
                 <p className="text-sm font-bold px-3">Title:</p>
-
-                <svg
-                  className="ml-60"
-                  width="25"
-                  height="25"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.75 12C9.75 13.2405 10.7595 14.25 12 14.25C13.2405 14.25 14.25 13.2405 14.25 12C14.25 10.7595 13.2405 9.75 12 9.75C10.7595 9.75 9.75 10.7595 9.75 12ZM9.75 19.5C9.75 20.7405 10.7595 21.75 12 21.75C13.2405 21.75 14.25 20.7405 14.25 19.5C14.25 18.2595 13.2405 17.25 12 17.25C10.7595 17.25 9.75 18.2595 9.75 19.5ZM9.75 4.5C9.75 5.7405 10.7595 6.75 12 6.75C13.2405 6.75 14.25 5.7405 14.25 4.5C14.25 3.2595 13.2405 2.25 12 2.25C10.7595 2.25 9.75 3.2595 9.75 4.5Z"
-                    fill="#4BCBEB"
-                  />
-                </svg>
+                <button onClick={() => handleTodoClick(item._id)}>
+                  <svg
+                    className="ml-60"
+                    width="25"
+                    height="25"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.75 12C9.75 13.2405 10.7595 14.25 12 14.25C13.2405 14.25 14.25 13.2405 14.25 12C14.25 10.7595 13.2405 9.75 12 9.75C10.7595 9.75 9.75 10.7595 9.75 12ZM9.75 19.5C9.75 20.7405 10.7595 21.75 12 21.75C13.2405 21.75 14.25 20.7405 14.25 19.5C14.25 18.2595 13.2405 17.25 12 17.25C10.7595 17.25 9.75 18.2595 9.75 19.5ZM9.75 4.5C9.75 5.7405 10.7595 6.75 12 6.75C13.2405 6.75 14.25 5.7405 14.25 4.5C14.25 3.2595 13.2405 2.25 12 2.25C10.7595 2.25 9.75 3.2595 9.75 4.5Z"
+                      fill="#4BCBEB"
+                    />
+                  </svg>
+                  {selectedTaskId === item._id && (
+                <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} />
+              )}
+                </button>
               </div>
               <p className="px-3">{item.title}</p>
               <div className="text-sm font-bold mt-2 px-3">Description:</div>

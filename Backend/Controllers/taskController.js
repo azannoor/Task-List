@@ -73,14 +73,24 @@ export const updateTask = async (req, res) => {
 // Delete a task by ID
 export const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-    if (task) {
-      await task.remove();
-      res.json({ message: "Task deleted" });
-    } else {
-      res.status(404).json({ message: "Task not found" });
+    const taskId = req.params.id;
+    
+    // Check if the task exists
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
     }
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    
+    // Delete the task
+    await Task.findByIdAndDelete(taskId);
+    
+    // Respond with success message
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// Other controller methods...
+

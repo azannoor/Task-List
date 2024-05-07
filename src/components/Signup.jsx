@@ -29,7 +29,7 @@ function Signup() {
               const errors = {};
               
               if (!values.email) {
-                
+                errors.email = 'Required';
               } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
                 errors.email = 'Invalid email address';
               }
