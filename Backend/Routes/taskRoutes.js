@@ -1,7 +1,8 @@
 import express from "express";
 const router = express.Router();
 import * as taskController from "../Controllers/taskController.js";
-
+import { AuthenticateToken } from "../middlewares/AuthenticateToken.js";
+router.use(AuthenticateToken);
 // Get all tasks
 router.get("/", taskController.getAllTasks);
 
@@ -9,7 +10,7 @@ router.get("/", taskController.getAllTasks);
 router.get("/:id", taskController.getTaskById);
 
 // Create a new task
-router.post("/addTasks", taskController.createTask);
+router.post('/addTasks',taskController.createTask);
 
 // Update a task by ID
 router.put("/:id", taskController.updateTask);

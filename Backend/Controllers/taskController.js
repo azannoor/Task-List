@@ -3,12 +3,21 @@ import Task from "../Models/taskModel.js";
 
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find();
+    let tasks;
+    // Check if the user is admin
+    if (req.user.role === 'admin') {
+      // If user is admin, fetch all tasks
+      tasks = await Task.find();
+    } else {
+      // If user is not admin, fetch tasks associated with the authenticated user
+      tasks = await Task.find({ user: req.user._id });
+    }
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 
 export const getTaskById = async (req, res) => {
@@ -27,29 +36,27 @@ export const getTaskById = async (req, res) => {
 
 export const createTask = async (req, res) => {
   const { title, description, startDate, endDate } = req.body;
-  
 
-  
   if (!title || !description || !startDate || !endDate) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
-    
-      const task = new Task({
-        title,
-        description,
-        startDate,
-        endDate,
-        
-        // Add other task properties here
-      });
+    const task = new Task({
+      title,
+      description,
+      startDate,
+      endDate,
+      user: req.user._id // Associate the task with the authenticated user
+    });
     const newTask = await task.save();
     res.status(201).json(newTask);
   } catch (err) {
+    console.error("Error creating task:", err.message); // Log detailed error message
     res.status(400).json({ message: err.message });
   }
 };
+
 
 // Update a task by ID
 export const updateTask = async (req, res) => {

@@ -9,7 +9,7 @@ import AddTask from "../svg components/AddTask";
 import { getRole } from "../utils/GetRole";
 import CircularProgress from "@mui/material/CircularProgress";
 import Todo from "../Basic Components/Todo";
-
+import { jwtDecode } from 'jwt-decode' 
 
 function Tasks() {
   const [submittedData, setSubmittedData] = useState([]);
@@ -17,14 +17,10 @@ function Tasks() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State to track loading
-
   const [showTodo, setShowTodo] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const handleClick = (taskId) => {
-    setSelectedTaskId(taskId);
-  };
+  const [userRole, setUserRole] = useState(null);
   
-
   const colors = [
     "bg-red-500",
     "bg-blue-500",
@@ -40,48 +36,104 @@ function Tasks() {
 
   useEffect(() => {
     fetchTasks();
+    getUserRoleFromToken(); // Call function to retrieve user role
   }, []);
 
+  // Function to retrieve user role from token in local storage
+  const getUserRoleFromToken = () => {
+    try {
+      const token = localStorage.getItem('jsonwebtoken');
+      if (token) {
+        const tokenPayload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(tokenPayload));
+        setUserRole(decodedPayload.role);
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
+    }
+  };
+  const getUserIdFromToken = () => {
+    try {
+      const token = localStorage.getItem('jsonwebtoken');
+      console.log("Token:", token);
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        console.log("Decoded Token:", decodedToken);
+        const userId = decodedToken.userId;
+        console.log("User ID:", userId); // Add this line to check the extracted user ID
+        return userId;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  };
+  
+  
+
   function fetchTasks() {
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
+    const token = localStorage.getItem('jsonwebtoken');
+    if (!token) {
+      console.error("No token found in local storage");
+      setIsLoading(false);
+      return;
+    }
+    
+    let url = "http://localhost:3000/api/tasks";
+    
     axios
-      .get("http://localhost:3000/api/tasks")
+      .get(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then((response) => {
         const tasks = response.data;
         setSubmittedData(tasks);
         setFilteredTasks(tasks);
+        console.log(response)
       })
       .catch((error) => {
         console.error("Error fetching tasks:", error);
       })
       .finally(() => {
-        setIsLoading(false); // End loading
+        setIsLoading(false);
       });
   }
-
+  
   function handleModalSubmit(data) {
+    const token = localStorage.getItem('jsonwebtoken');
+    if (!token) {
+      console.error("No token found in local storage");
+      return;
+    }
+  
     axios
-      .post("http://localhost:3000/api/tasks/addTasks", data)
+      .post("http://localhost:3000/api/tasks/addTasks", data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setSubmittedData([...submittedData, data]);
         setFilteredTasks([...filteredTasks, data]);
         setShowModal(false);
+        console.log(response)
       })
       .catch((error) => {
         console.error("Error adding task:", error);
       });
   }
+  
 
- 
   const handleDeleteTask = (taskId) => {
     axios
         .delete(`http://localhost:3000/api/tasks/${taskId}`)
         .then((response) => {
-            // Remove the deleted task from UI
-            console.log(response)
             const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
             setFilteredTasks(updatedTasks);
-            // Close Todo component if the deleted task is the one being displayed
             if (selectedTaskId === taskId) {
               setSelectedTaskId(null);
             }
@@ -89,34 +141,29 @@ function Tasks() {
         .catch((error) => {
             console.error("Error deleting task:", error);
         });
-};
+  };
 
-const handleTodoDelete = () => {
+  const handleTodoDelete = () => {
     if (selectedTaskId) {
         handleDeleteTask(selectedTaskId);
     }
-};
+  };
 
-const handleTodoClose = () => {
-    
+  const handleTodoClose = () => {
     setSelectedTaskId(null);
-};
+  };
 
-const handleTodoClick = (taskId) => {
-  if (selectedTaskId === taskId) {
-      // If the same task is clicked again, close the Todo component
-      setSelectedTaskId(null);
-  } else {
-      // If a different task is clicked, open the Todo component for that task
-      setSelectedTaskId(taskId);
-  }
-};
+  const handleTodoClick = (taskId) => {
+    if (selectedTaskId === taskId) {
+        setSelectedTaskId(null);
+    } else {
+        setSelectedTaskId(taskId);
+    }
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return `${date.getFullYear()}-${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
   };
 
   const handleSearchChange = (e) => {
@@ -144,6 +191,7 @@ const handleTodoClick = (taskId) => {
         </div>
         <div className="px-4 md:px-16 mt-7">
           <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="flex">
             <div className="w-full md:w-60 mb-4 md:mb-0">
               <h1 className="font-bold">Start Date:</h1>
               <input
@@ -153,8 +201,8 @@ const handleTodoClick = (taskId) => {
                 required
               />
             </div>
-
-            <div className="w-full md:w-60">
+            
+            <div className="w-full md:w-60 items-center justify-between mb-4 md:mb-0">
               <h1 className="font-bold">End Date:</h1>
               <input
                 className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
@@ -163,7 +211,9 @@ const handleTodoClick = (taskId) => {
                 required
               />
             </div>
-            {getRole() !== "Admin" && (
+            </div>
+            
+            {userRole !== "admin" && ( // Render Add Task button only if user role is not admin
               <button
                 className="h-10 ml-auto"
                 onClick={() => setShowModal(true)}
@@ -216,8 +266,8 @@ const handleTodoClick = (taskId) => {
                     />
                   </svg>
                   {selectedTaskId === item._id && (
-                <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} />
-              )}
+                    <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} />
+                  )}
                 </button>
               </div>
               <p className="px-3">{item.title}</p>

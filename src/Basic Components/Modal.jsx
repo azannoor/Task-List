@@ -19,18 +19,35 @@ function Modal({ onSubmit }) {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true); // Set loading to true on form submission
-    axios.post('http://localhost:3000/api/tasks/addTasks', { title, description, startDate, endDate })
-      .then(result => {
-        const newData = { title, description, startDate, endDate };
-        onSubmit(newData);
-        setLoading(false); // Set loading to false after successful submission
-        console.log(result)
-      })
-      .catch(err => {
-        setLoading(false); // Set loading to false if submission is unsuccessful
-        console.log(err);
-      });
+  
+    const token = localStorage.getItem('jsonwebtoken');
+    if (!token) {
+      console.error("No token found in local storage");
+      return;
+    }
+  
+    axios.post(
+      'http://localhost:3000/api/tasks/addTasks',
+      { title, description, startDate, endDate },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+    .then(result => {
+      const newData = { title, description, startDate, endDate };
+      onSubmit(newData);
+      setLoading(false); // Set loading to false after successful submission
+      console.log(result)
+    })
+    .catch(err => {
+      setLoading(false); // Set loading to false if submission is unsuccessful
+      console.log(err);
+    });
   };
+  
 
   return (
     <>
