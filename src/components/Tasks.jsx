@@ -10,6 +10,7 @@ import { getRole } from "../utils/GetRole";
 import CircularProgress from "@mui/material/CircularProgress";
 import Todo from "../Basic Components/Todo";
 import { jwtDecode } from 'jwt-decode' 
+import Header from '../Basic Components/Header'
 
 function Tasks() {
   const [submittedData, setSubmittedData] = useState([]);
@@ -129,19 +130,25 @@ function Tasks() {
   
 
   const handleDeleteTask = (taskId) => {
+    const token = localStorage.getItem('jsonwebtoken');
     axios
-        .delete(`http://localhost:3000/api/tasks/${taskId}`)
-        .then((response) => {
-            const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
-            setFilteredTasks(updatedTasks);
-            if (selectedTaskId === taskId) {
-              setSelectedTaskId(null);
-            }
-        })
-        .catch((error) => {
-            console.error("Error deleting task:", error);
-        });
+      .delete(`http://localhost:3000/api/tasks/${taskId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then((response) => {
+        const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
+        setFilteredTasks(updatedTasks);
+        if (selectedTaskId === taskId) {
+          setSelectedTaskId(null);
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+      });
   };
+  
 
   const handleTodoDelete = () => {
     if (selectedTaskId) {
@@ -182,13 +189,7 @@ function Tasks() {
       </div>
 
       <div className="w-full md:w-10/12 overflow-auto bg-[#F6F8FA]">
-        <div className="flex h-16 bg-white items-center justify-between px-4 md:px-16">
-          <p className="font-extrabold text-2xl text-black">Task</p>
-          <div className="flex items-center space-x-4">
-            <Notification />
-            <User />
-          </div>
-        </div>
+        <Header name="Task"></Header>
         <div className="px-4 md:px-16 mt-7">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex">

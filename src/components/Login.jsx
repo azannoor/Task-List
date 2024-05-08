@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
 
-
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); 
@@ -24,6 +24,7 @@ function Login() {
         const token = result.data.token; // Assuming token is returned in the response
         localStorage.setItem('jsonwebtoken',token);
         console.log("User Role:", result.data.user.role);
+        onLogin();
         navigate('/dashboard');
         console.log(result);
       })
@@ -115,5 +116,7 @@ function Login() {
     </div>
   );
 }
-
+Login.propTypes = {
+  onLogin: PropTypes.func.isRequired,
+};
 export default Login;
