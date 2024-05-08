@@ -20,9 +20,9 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["ADMIN", "USER"],
-    required: true,
-  },
+    default: 'user', // Default role is 'user'
+    enum: ['user', 'admin'] // Available roles
+  }
 });
 userSchema.pre('save',async function(){
   const salt = await bcrypt.genSalt(10)
@@ -31,7 +31,7 @@ userSchema.pre('save',async function(){
 })
 
 userSchema.methods.createJWT = function(){
-  return jwt.sign({userId:this._id},'jwtSecret',{expiresIn:'1h'})
+  return jwt.sign({userId:this._id,role: this.role},'jwtSecret',{expiresIn:'1h'})
 }
 
 const User = mongoose.model("User", userSchema);

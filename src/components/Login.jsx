@@ -8,6 +8,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +21,9 @@ function Login() {
     setLoading(true); 
     axios.post('http://localhost:3000/api/users/login',{email,password})
       .then(result => {
+        const token = result.data.token; // Assuming token is returned in the response
+        localStorage.setItem('jsonwebtoken',token);
+        console.log("User Role:", result.data.user.role);
         navigate('/dashboard');
         console.log(result);
       })
