@@ -14,6 +14,7 @@ function Users() {
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedTaskId, setSelectedTaskId] = useState(null); // Track selected item id for Todo
 
   const itemsPerPage = 6; // Number of items per page
 
@@ -56,6 +57,18 @@ function Users() {
     setCurrentPage(value); 
   };
 
+  const handleTodoClose = () => {
+    setSelectedTaskId(null);
+  };
+
+  const handleTodoClick = (taskId) => {
+    if (selectedTaskId === taskId) {
+        setSelectedTaskId(null);
+    } else {
+        setSelectedTaskId(taskId);
+    }
+  };
+
   return (
     <div className="flex h-screen">
       <div className="h-screen w-64">
@@ -85,35 +98,36 @@ function Users() {
             </div>
           )}
           <div className=" h-[450px] ">
-            {currentItems.map((item, index) => {
-              return (
-                <div key={index} className="mb-3 py-3 flex border-b space-x-20">
-                  <div className="w-32 px-20 ml-44 ">{item.name}</div>
-                  <div className="mr-80 w-32 ">{item.email}</div> {/* Display email */}
-                  <div className=" w-40">{item.phoneNumber}</div>
-                  
-                  <div className="w-32 flex justify-end items-center ">
-                    <button>
-                    <svg
-                      
-                      width="28"
-                      height="28"
-                      viewBox="0 0 32 32"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M13 16C13 17.654 14.346 19 16 19C17.654 19 19 17.654 19 16C19 14.346 17.654 13 16 13C14.346 13 13 14.346 13 16ZM13 26C13 27.654 14.346 29 16 29C17.654 29 19 27.654 19 26C19 24.346 17.654 23 16 23C14.346 23 13 24.346 13 26ZM13 6C13 7.654 14.346 9 16 9C17.654 9 19 7.654 19 6C19 4.346 17.654 3 16 3C14.346 3 13 4.346 13 6Z"
-                        fill="#4BCBEB"
-                      />
-                    </svg>
-                    <Todo></Todo>
-                    </button>
-                    
-                  </div>
-                </div>
-              );
-            })}
+          {currentItems.map((item, index) => {
+  return (
+    <div key={index} className="mb-3 py-3 flex border-b space-x-20">
+      <div className="w-32 px-20 ml-44 ">{item.name}</div>
+      <div className="mr-80 w-32 ">{item.email}</div> {/* Display email */}
+      <div className=" w-40">{item.phoneNumber}</div>
+      
+      <div className="w-32 flex justify-end items-center ">
+        <button  onClick={() => handleTodoClick(item._id)}>
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13 16C13 17.654 14.346 19 16 19C17.654 19 19 17.654 19 16C19 14.346 17.654 13 16 13C14.346 13 13 14.346 13 16ZM13 26C13 27.654 14.346 29 16 29C17.654 29 19 27.654 19 26C19 24.346 17.654 23 16 23C14.346 23 13 24.346 13 26ZM13 6C13 7.654 14.346 9 16 9C17.654 9 19 7.654 19 6C19 4.346 17.654 3 16 3C14.346 3 13 4.346 13 6Z"
+              fill="#4BCBEB"
+            />
+          </svg>
+        </button>
+        {selectedTaskId === item._id && (
+                    <Todo onClose={handleTodoClose} />
+                  )}
+      </div>
+    </div>
+  );
+})}
+
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
               <Pagination count={Math.ceil(userData.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
             </div>

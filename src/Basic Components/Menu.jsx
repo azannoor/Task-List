@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode' 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TaskList from "../svg components/TaskList";
 import Dashboard from "../svg components/Dashboard";
 import MenuUser from "../svg components/MenuUser";
@@ -9,13 +8,19 @@ import SettingsIcon from "../svg components/SettingsIcon";
 import TitleIcon from "../svg components/TitleIcon";
 
 const Menu = () => {
-  
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [userRole, setUserRole] = useState(null); // State to store user role
 
   // Function to handle setting active link
   const handleSetActiveLink = (link) => {
     setActiveLink(link);
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('jsonwebtoken'); // Remove JWT token from local storage
+    navigate('/login'); // Redirect to login page
   };
 
   useEffect(() => {
@@ -57,7 +62,7 @@ const Menu = () => {
             <button className="px-2 font-bold text-sm">Dashboard</button>
           </Link>
         </div>
-        {userRole === 'admin' && ( // Render this section only if user role is 'admin'
+        {userRole === 'admin' && (
           <div className="flex mt-3 ml-6 py-3 px-3 md:h-11 md:w-52">
             <MenuUser color={activeLink === '/users' ? '#4BCBEB' : '#64748B'} />
             <Link to="/users" className={`ml-2 ${activeLink === '/users' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/users')}>
@@ -78,6 +83,14 @@ const Menu = () => {
             <button className="px-2 font-medium text-sm">Settings</button>
           </Link>
         </div>
+        
+        {/* Logout button */}
+        <div className="flex mt-3 ml-6 py-3 px-3 md:h-11 md:w-52">
+          <button className={`px-2 font-medium text-sm ${activeLink === '/logout' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
+            Logout
+          </button>
+        </div>
+        
       </div>
       <div className="md:flex-1">
         {/* Your main content here */}

@@ -1,48 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import './App.css'
+import Signup from './components/Signup'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './components/Login';
+import Login from './components/Login'
+import ForgotPassword from './components/ForgotPassword'
+import ResetPassword from './components/ResetPassword';
 import Dashboard from './components/Dashboard';
-import Signup from './components/Signup';
 import Users from './components/Users';
 import Notifications from './components/Notifications';
 import Tasks from './components/Tasks';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
-import ProtectedRoute from './components/ProtectedRoute';
+import Hello from './components/Hello'
+import PrivateRoute from './components/PrivateRoute' // import the PrivateRoute component
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(checkLoggedIn());
-
-  function checkLoggedIn() {
-    
-    const token = localStorage.getItem('jsonwebtoken');
-    return !!token; 
-  }
-
-  const handleLogin = () => {
-    setLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('jsonwebtoken'); // Remove the token from localStorage on logout
-    setLoggedIn(false);
-  };
-
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/" element={<Signup/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route index element={<Dashboard/>} />
+        </Route>
+        <Route path="/users" element={<PrivateRoute />}>
+          <Route index element={<Users/>} />
+        </Route>
+        <Route path="/notifications" element={<PrivateRoute />}>
+          <Route index element={<Notifications/>} />
+        </Route>
+        <Route path="/tasks" element={<PrivateRoute />}>
+          <Route index element={<Tasks/>} />
+        </Route>
         <Route path="/forgotPassword" element={<ForgotPassword />} />
         <Route path="/resetPassword" element={<ResetPassword />} />
-        {/* Wrap the protected routes with the loggedIn state */}
-        <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} loggedIn={loggedIn} />} />
-        <Route path="/users" element={<ProtectedRoute element={<Users />} loggedIn={loggedIn} />} />
-        <Route path="/notifications" element={<ProtectedRoute element={<Notifications />} loggedIn={loggedIn} />} />
-        <Route path="/tasks" element={<ProtectedRoute element={<Tasks />} loggedIn={loggedIn} />} />
       </Routes>
     </Router>
-  );
+  )
 }
 
 export default App;

@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
-function Login({ onLogin }) {
+
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); 
@@ -116,7 +117,5 @@ function Login({ onLogin }) {
     </div>
   );
 }
-Login.propTypes = {
-  onLogin: PropTypes.func.isRequired,
-};
+
 export default Login;
