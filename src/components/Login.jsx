@@ -24,7 +24,7 @@ function Login({ onLogin }) {
         const token = result.data.token; // Assuming token is returned in the response
         localStorage.setItem('jsonwebtoken',token);
         console.log("User Role:", result.data.user.role);
-        onLogin();
+        
         navigate('/dashboard');
         console.log(result);
       })

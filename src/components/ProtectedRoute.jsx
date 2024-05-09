@@ -6,7 +6,6 @@ const ProtectedRoute = ({ element, loggedIn, ...rest }) => {
   return loggedIn ? element : <Navigate to="/login" />;
 };
 
-// PropTypes for ProtectedRoute
 ProtectedRoute.propTypes = {
   element: PropTypes.element.isRequired,
   loggedIn: PropTypes.bool.isRequired,

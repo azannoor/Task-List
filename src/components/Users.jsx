@@ -7,11 +7,13 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import TablePagination from '@mui/material/TablePagination';
 import { CircularProgress } from '@mui/material';
+import Todo from "../Basic Components/Todo";
 
 function Users() {
   const [userData, setUserData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1); // Track the current page
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const itemsPerPage = 6; // Number of items per page
 
@@ -22,13 +24,13 @@ function Users() {
   const fetchUserData = async () => {
     setIsLoading(true);
     try {
-      const tasksResponse = await axios.get("http://localhost:3000/api/tasks");
-      const userResponse = await axios.get("http://localhost:3000/api/users");
-      setUserData(tasksResponse.data);
+      const response = await axios.get("http://localhost:3000/api/users");
+      setUserData(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
-    } finally{
-      setIsLoading(false)
+      setError("An error occurred while fetching user data. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -45,11 +47,9 @@ function Users() {
     return diffInDays;
   };
 
- 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  
   const currentItems = userData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
@@ -66,12 +66,11 @@ function Users() {
         <Header name="Users"></Header>
         <div className="mt-11 ml-11 w-[1150px] h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] drop-shadow-md truncate relative">
           <h1 className="m-5 font-bold text-2xl">Online User</h1>
-          <div className="ml-4 mb-5 flex space-x-28">
-            <h1 className="text-lg font-medium">Customer Name</h1>
-            <h1 className="text-lg font-medium">Project Name</h1>
-            <h1 className="px-3 text-lg font-medium">Start Date</h1>
-            <h1 className="px-7 text-lg font-medium">End Date</h1>
-            <h1 className="text-lg font-medium">OverDue day</h1>
+          <div className="ml-60 mb-5 flex space-x-28">
+            <h1 className="text-lg font-medium">UserName</h1>
+            <h1 className="text-lg font-medium">email</h1>
+            <h1 className="px-3 text-lg font-medium">Phone Number</h1>
+            
           </div>
           {isLoading && (
             <div className="flex justify-center items-center min-h-screen">
@@ -80,18 +79,23 @@ function Users() {
               </div>
             </div>
           )}
+          {error && (
+            <div className="flex justify-center items-center min-h-screen text-red-600">
+              {error}
+            </div>
+          )}
           <div className=" h-[450px] ">
             {currentItems.map((item, index) => {
               return (
-                <div key={index} className="mb-3 py-3 flex border-b space-x-28">
-                  <div className="w-32">{item.name}</div>
-                  <div className="px-11 w-32">{item.title}</div>
-                  <div className="px-5 w-30">{formatDate(item.startDate)}</div>
-                  <div className="px-3 w-30">{formatDate(item.endDate)}</div>
-                  <div className="w-32 gap-x-3 flex justify-end items-center gap-14">
-                    {calculateDaysLeft(item.startDate, item.endDate)}
+                <div key={index} className="mb-3 py-3 flex border-b space-x-20">
+                  <div className="w-32 px-20 ml-44 ">{item.name}</div>
+                  <div className="mr-80 w-32 ">{item.email}</div> {/* Display email */}
+                  <div className=" w-40">{item.phoneNumber}</div>
+                  
+                  <div className="w-32 flex justify-end items-center ">
+                    <button>
                     <svg
-                      className="ml-5"
+                      
                       width="28"
                       height="28"
                       viewBox="0 0 32 32"
@@ -103,6 +107,9 @@ function Users() {
                         fill="#4BCBEB"
                       />
                     </svg>
+                    <Todo></Todo>
+                    </button>
+                    
                   </div>
                 </div>
               );
