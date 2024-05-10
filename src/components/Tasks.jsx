@@ -21,6 +21,8 @@ function Tasks() {
   const [showTodo, setShowTodo] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [startDate, setStartDate] = useState(""); // State for start date input
+  const [endDate, setEndDate] = useState("");
   
   const colors = [
     "bg-red-500",
@@ -174,13 +176,48 @@ function Tasks() {
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
   };
 
+  // Function to filter tasks based on start and end dates
+  const filterTasksByDate = (tasks) => {
+    if (startDate && endDate) {
+      const filteredTasks = tasks.filter(task => {
+        const taskStartDate = new Date(task.startDate);
+        const taskEndDate = new Date(task.endDate);
+        const filterStartDate = new Date(startDate);
+        const filterEndDate = new Date(endDate);
+        return taskStartDate >= filterStartDate && taskEndDate <= filterEndDate;
+      });
+      return filteredTasks;
+    }
+    return tasks;
+  };
+
+  const handleStartDateChange = (e) => {
+    setStartDate(e.target.value);
+    applyFilters(e.target.value, endDate);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndDate(e.target.value);
+    applyFilters(startDate, e.target.value);
+  };
+
+  const applyFilters = (start, end) => {
+    const filteredByDate = filterTasksByDate(submittedData);
+    const filteredBySearch = filteredByDate.filter(task =>
+      task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredTasks(filteredBySearch);
+  };
+
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    const filteredTasks = submittedData.filter((task) =>
-      task.title.toLowerCase().includes(query)
-    );
-    setFilteredTasks(filteredTasks);
+    applyFilters(startDate, endDate);
+
+    if (query === "") {
+      // If search query is empty, fetch all previous tasks again
+      setFilteredTasks(submittedData);
+    }
   };
 
   return (
@@ -200,6 +237,8 @@ function Tasks() {
                 className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
                 type="date"
                 placeholder="15-Apr-2024"
+                value={startDate}
+                onChange={handleStartDateChange}
                 required
               />
             </div>
@@ -210,6 +249,8 @@ function Tasks() {
                 className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
                 type="date"
                 placeholder="15-Apr-2024"
+                value={endDate}
+                onChange={handleEndDateChange}
                 required
               />
             </div>
