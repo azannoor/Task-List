@@ -68,6 +68,17 @@ function Users() {
         setSelectedTaskId(taskId);
     }
   };
+  const deleteUser = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/users/${userId}`);
+      // If successful, update the user data by refetching it
+      fetchUserData();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      setError("An error occurred while deleting the user. Please try again later.");
+    }
+  };
+  
 
   return (
     <div className="flex h-screen">
@@ -121,7 +132,7 @@ function Users() {
           </svg>
         </button>
         {selectedTaskId === item._id && (
-                    <Todo onClose={handleTodoClose} />
+                    <Todo onDelete={() => deleteUser(item._id)} onClose={handleTodoClose} />
                   )}
       </div>
     </div>

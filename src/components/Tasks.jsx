@@ -138,6 +138,7 @@ function Tasks() {
         }
       })
       .then((response) => {
+        console.log('delete',response)
         const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
         setFilteredTasks(updatedTasks);
         if (selectedTaskId === taskId) {
