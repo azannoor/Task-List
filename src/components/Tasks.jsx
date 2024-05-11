@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Todo from "../Basic Components/Todo";
 import { jwtDecode } from 'jwt-decode' 
 import Header from '../Basic Components/Header'
+import EditModal from '../Basic Components/EditModal'
 
 function Tasks() {
   const [submittedData, setSubmittedData] = useState([]);
@@ -23,6 +24,48 @@ function Tasks() {
   const [userRole, setUserRole] = useState(null);
   const [startDate, setStartDate] = useState(""); // State for start date input
   const [endDate, setEndDate] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editTask, setEditTask] = useState(null);
+  
+
+  const handleEditTask = (taskId) => {
+    // Fetch the task to edit from submittedData or another source
+    const taskToEdit = submittedData.find(task => task._id === taskId);
+    if (taskToEdit) {
+      setEditTask(taskToEdit);
+      setShowEditModal(true);
+    }
+  };
+  // Function to close edit modal
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setEditTask(null);
+  };
+  const handleEditModalSubmit = (editedTask) => {
+    // Implement edit task functionality here
+    console.log("Edited task:", editedTask);
+    
+    // Update the state with the edited task
+    const updatedTasks = submittedData.map(task => {
+      if (task._id === editedTask._id) {
+        return editedTask;
+      } else {
+        return task;
+      }
+    });
+  
+    setSubmittedData(updatedTasks);
+    setFilteredTasks(updatedTasks);
+  
+    // Example: Call API to update task
+    // axios.put(`http://localhost:3000/api/tasks/${editedTask.id}`, editedTask)
+    //   .then((response) => {
+    //     // Handle success
+    //   })
+    //   .catch((error) => {
+    //     // Handle error
+    //   });
+  };
   
   const colors = [
     "bg-red-500",
@@ -309,7 +352,7 @@ function Tasks() {
                     />
                   </svg>
                   {selectedTaskId === item._id && (
-                    <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} />
+                    <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} onEdit={handleEditTask} taskId={item._id}/>
                   )}
                 </button>
               </div>
@@ -337,6 +380,14 @@ function Tasks() {
         </div>
       </div>
       {showModal && <Modal onSubmit={handleModalSubmit} />}
+      {showEditModal && (
+        <EditModal
+        task={editTask}
+        onSubmit={handleEditModalSubmit}
+        onClose={handleCloseEditModal}
+      />
+      
+      )}
     </div>
   );
 }
