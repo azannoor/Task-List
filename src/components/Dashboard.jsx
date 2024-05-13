@@ -59,6 +59,7 @@ function Dashboard() {
       {
         name: "Total Tasks",
         data: totalTasksData,
+        color: "#4BCBEB",
       },
       {
         name: "Declined Tasks",
@@ -113,6 +114,8 @@ function Dashboard() {
   };
 
   const completionPercentage = (declinedTasks / totalTasks) * 100;
+  const completedTask = 0
+  const pendingTask = 0
 
   return (
     <div className="flex flex-col md:flex-row h-screen">

@@ -177,7 +177,7 @@ function Tasks() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
+    <div className="flex flex-col md:flex-row   h-full">
       <div className="md:w-64 w-full ">
         <Menu />
       </div>

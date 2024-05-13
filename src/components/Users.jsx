@@ -90,9 +90,9 @@ function Users() {
         <Header name="Users"></Header>
         <div className="mt-11 mx-4 md:mx-0 md:w-[calc(100%-64px)] md:mx-auto  h-auto md:h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] shadow-md">
           <h1 className="m-5 font-bold text-2xl">Online User</h1>
-          <div className="hidden lg:flex ml-60 mb-5 space-x-28">
+          <div className="hidden lg:flex ml-60 mb-5 space-x-[18%]">
             <h1 className="text-lg font-medium">UserName</h1>
-            <h1 className="text-lg font-medium">email</h1>
+            <h1 className="text-lg font-medium ">email</h1>
             <h1 className="px-3 text-lg font-medium">Phone Number</h1>
           </div>
           {isLoading && (
@@ -111,7 +111,7 @@ function Users() {
           {currentItems.map((item, index) => {
             return (
               <div key={index} className="mb-3 py-3 border-b">
-                <div className="lg:flex lg:items-center lg:space-x-14 lg:ml-64">
+                <div className="lg:flex lg:items-center lg:space-x-28 lg:ml-64">
                   <div className="lg:w-32">{item.name}</div>
                   <div className="lg:w-32">{item.email}</div>
                   <div className="lg:w-40">{item.phoneNumber}</div>

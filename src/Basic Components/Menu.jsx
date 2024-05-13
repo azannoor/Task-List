@@ -45,7 +45,7 @@ const Menu = () => {
   }, []); // Empty dependency array ensures this effect runs only once on component mount
 
   return (
-    <div className="md:min-h-screen flex flex-col md:flex-row bg-white shadow ">
+    <div className="md:min-h-screen flex flex-col md:flex-row bg-white shadow h-full ">
       <div className="md:w-64 bg-white shadow md:flex-shrink-0"> {/* Added md:flex-shrink-0 */}
         <div className="mt-5 flex items-center justify-center">
           <TaskList />
