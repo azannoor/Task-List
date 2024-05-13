@@ -45,8 +45,8 @@ const Menu = () => {
   }, []); // Empty dependency array ensures this effect runs only once on component mount
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-white shadow">
-      <div className="md:w-64 bg-white shadow">
+    <div className="md:min-h-screen flex flex-col md:flex-row bg-white shadow ">
+      <div className="md:w-64 bg-white shadow md:flex-shrink-0"> {/* Added md:flex-shrink-0 */}
         <div className="mt-5 flex items-center justify-center">
           <TaskList />
           <h1 className="px-3 font-bold text-lg text-[#4BCBEB]">
@@ -56,7 +56,7 @@ const Menu = () => {
         <TitleIcon />
         <p className="mt-6 ml-7 font-bold text-sm text-black">MENU</p>
 
-        <div className="mt-7 ml-6 py-3 px-3 md:h-11 md:w-52 bg-white rounded-xl flex border-2 border-[#F1F5F9]">
+        <div className="mt-7 ml-6 py-3 px-3 md:h-11 md:w-52 bg-white rounded-xl flex  ">
           <Dashboard color={activeLink === '/dashboard' ? '#4BCBEB' : '#64748B'} />
           <Link to="/dashboard" className={`ml-2 ${activeLink === '/dashboard' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/dashboard')}>
             <button className="px-2 font-bold text-sm">Dashboard</button>
@@ -85,16 +85,14 @@ const Menu = () => {
         </div>
         
         {/* Logout button */}
-        <div className="flex mt-[120%] ml-6 py-1 px-3 md:h-11 md:w-52 ">
-          <button className="px-2  w-full bg-[#4BCBEB] rounded-lg text-white relative" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
+        <div className="flex mt-3  ml-6 py-3 px-3 md:h-19 md:w-52 ">
+          <button className="px-2 h-9 w-full bg-[#4BCBEB] rounded-lg text-white relative" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
             Logout
           </button>
         </div>
         
       </div>
-      <div className="md:flex-1">
-        {/* Your main content here */}
-      </div>
+      
     </div>
   );
 };

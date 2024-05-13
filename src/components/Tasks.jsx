@@ -10,8 +10,7 @@ import { getRole } from "../utils/GetRole";
 import CircularProgress from "@mui/material/CircularProgress";
 import Todo from "../Basic Components/Todo";
 import { jwtDecode } from 'jwt-decode' 
-import Header from '../Basic Components/Header'
-import EditModal from '../Basic Components/EditModal'
+import Header from "../Basic Components/Header";
 
 function Tasks() {
   const [submittedData, setSubmittedData] = useState([]);
@@ -22,50 +21,6 @@ function Tasks() {
   const [showTodo, setShowTodo] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [userRole, setUserRole] = useState(null);
-  const [startDate, setStartDate] = useState(""); // State for start date input
-  const [endDate, setEndDate] = useState("");
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [editTask, setEditTask] = useState(null);
-  
-
-  const handleEditTask = (taskId) => {
-    // Fetch the task to edit from submittedData or another source
-    const taskToEdit = submittedData.find(task => task._id === taskId);
-    if (taskToEdit) {
-      setEditTask(taskToEdit);
-      setShowEditModal(true);
-    }
-  };
-  // Function to close edit modal
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-    setEditTask(null);
-  };
-  const handleEditModalSubmit = (editedTask) => {
-    // Implement edit task functionality here
-    console.log("Edited task:", editedTask);
-    
-    // Update the state with the edited task
-    const updatedTasks = submittedData.map(task => {
-      if (task._id === editedTask._id) {
-        return editedTask;
-      } else {
-        return task;
-      }
-    });
-  
-    setSubmittedData(updatedTasks);
-    setFilteredTasks(updatedTasks);
-  
-    // Example: Call API to update task
-    // axios.put(`http://localhost:3000/api/tasks/${editedTask.id}`, editedTask)
-    //   .then((response) => {
-    //     // Handle success
-    //   })
-    //   .catch((error) => {
-    //     // Handle error
-    //   });
-  };
   
   const colors = [
     "bg-red-500",
@@ -175,26 +130,19 @@ function Tasks() {
   
 
   const handleDeleteTask = (taskId) => {
-    const token = localStorage.getItem('jsonwebtoken');
     axios
-      .delete(`http://localhost:3000/api/tasks/${taskId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .then((response) => {
-        console.log('delete',response)
-        const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
-        setFilteredTasks(updatedTasks);
-        if (selectedTaskId === taskId) {
-          setSelectedTaskId(null);
-        }
-      })
-      .catch((error) => {
-        console.error("Error deleting task:", error);
-      });
+        .delete(`http://localhost:3000/api/tasks/${taskId}`)
+        .then((response) => {
+            const updatedTasks = filteredTasks.filter((task) => task._id !== taskId);
+            setFilteredTasks(updatedTasks);
+            if (selectedTaskId === taskId) {
+              setSelectedTaskId(null);
+            }
+        })
+        .catch((error) => {
+            console.error("Error deleting task:", error);
+        });
   };
-  
 
   const handleTodoDelete = () => {
     if (selectedTaskId) {
@@ -219,58 +167,24 @@ function Tasks() {
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
   };
 
-  // Function to filter tasks based on start and end dates
-  const filterTasksByDate = (tasks) => {
-    if (startDate && endDate) {
-      const filteredTasks = tasks.filter(task => {
-        const taskStartDate = new Date(task.startDate);
-        const taskEndDate = new Date(task.endDate);
-        const filterStartDate = new Date(startDate);
-        const filterEndDate = new Date(endDate);
-        return taskStartDate >= filterStartDate && taskEndDate <= filterEndDate;
-      });
-      return filteredTasks;
-    }
-    return tasks;
-  };
-
-  const handleStartDateChange = (e) => {
-    setStartDate(e.target.value);
-    applyFilters(e.target.value, endDate);
-  };
-
-  const handleEndDateChange = (e) => {
-    setEndDate(e.target.value);
-    applyFilters(startDate, e.target.value);
-  };
-
-  const applyFilters = (start, end) => {
-    const filteredByDate = filterTasksByDate(submittedData);
-    const filteredBySearch = filteredByDate.filter(task =>
-      task.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredTasks(filteredBySearch);
-  };
-
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    applyFilters(startDate, endDate);
-
-    if (query === "") {
-      // If search query is empty, fetch all previous tasks again
-      setFilteredTasks(submittedData);
-    }
+    const filteredTasks = submittedData.filter((task) =>
+      task.title.toLowerCase().includes(query)
+    );
+    setFilteredTasks(filteredTasks);
   };
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
-      <div className="md:w-64">
+      <div className="md:w-64 w-full ">
         <Menu />
       </div>
 
-      <div className="w-full md:w-10/12 overflow-auto bg-[#F6F8FA]">
-        <Header name="Task"></Header>
+      <div className="w-full md:w-10/12  bg-[#F6F8FA]">
+      <Header name="Tasks"/>
+        
         <div className="px-4 md:px-16 mt-7">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex">
@@ -280,8 +194,6 @@ function Tasks() {
                 className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
                 type="date"
                 placeholder="15-Apr-2024"
-                value={startDate}
-                onChange={handleStartDateChange}
                 required
               />
             </div>
@@ -292,8 +204,6 @@ function Tasks() {
                 className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
                 type="date"
                 placeholder="15-Apr-2024"
-                value={endDate}
-                onChange={handleEndDateChange}
                 required
               />
             </div>
@@ -351,12 +261,9 @@ function Tasks() {
                       fill="#4BCBEB"
                     />
                   </svg>
-                  <div className="absolute">
                   {selectedTaskId === item._id && (
-                    <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} onEdit={handleEditTask} taskId={item._id}/>
+                    <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} />
                   )}
-                  </div>
-                 
                 </button>
               </div>
               <p className="px-3">{item.title}</p>
@@ -383,14 +290,6 @@ function Tasks() {
         </div>
       </div>
       {showModal && <Modal onSubmit={handleModalSubmit} />}
-      {showEditModal && (
-        <EditModal
-        task={editTask}
-        onSubmit={handleEditModalSubmit}
-        onClose={handleCloseEditModal}
-      />
-      
-      )}
     </div>
   );
 }
