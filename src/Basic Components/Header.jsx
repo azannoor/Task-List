@@ -42,11 +42,12 @@ const Header = ({name}) => {
     <p className="px-9 py-3 font-extrabold text-2xl text-black">
       {name}
     </p>
-    <Link to='/notifications'>
+    
+   <div className='flex items-center ml-[15%] fixed'>
+   <Link to='/notifications'>
     <Notification></Notification>
     </Link>
-   
-     <img
+   <img
               className="h-8 mt-3 ml-4"
               src="src\assets\images\UserIcon.png"
               alt="User Icon"
@@ -60,6 +61,8 @@ const Header = ({name}) => {
               src="src\assets\images\GreaterThan.png"
               alt="Arrow Icon"
             />
+   </div>
+    
   </div>
   )
 }
