@@ -9,14 +9,7 @@ import { useState,useEffect } from "react";
 
 const chartConfig = {
   type: "line",
-  height: 240,
-  width: 400,
-  series: [
-    {
-      name: "Sales",
-      data: [100, 500, 2000, 2500, 5000, 600],
-    },
-  ],
+  
   options: {
     chart: {
       toolbar: {
@@ -37,48 +30,9 @@ const chartConfig = {
     markers: {
       size: 0,
     },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-      categories: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
+    
 
-      padding: {
-        top: 5,
-        right: 20,
-      },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
+    
   },
 };
 function Dashboard() {
@@ -86,6 +40,51 @@ function Dashboard() {
   const [totalTasks, setTotalTasks] = useState(0);
   const [tasks, setTasks] = useState([]);
   const [declinedTasks, setDeclinedTasks] = useState(0);
+  const [chartData, setChartData] = useState({
+    series: [],
+    options: {
+      // Your chart options here
+    },
+  });
+  const processDataForChart = (tasks) => {
+    // Initialize empty arrays for each month
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const totalTasksData = months.map(() => 0);
+    const declinedTasksData = months.map(() => 0);
+
+    // Fill arrays with task counts for each month
+    tasks.forEach(task => {
+      const month = new Date(task.endDate).getMonth();
+      totalTasksData[month]++;
+      if (new Date(task.endDate) < new Date()) {
+        declinedTasksData[month]++;
+      }
+    });
+
+    // Create series data for the chart
+    const seriesData = [
+      {
+        name: "Total Tasks",
+        data: totalTasksData,
+      },
+      {
+        name: "Declined Tasks",
+        data: declinedTasksData,
+        color: "#FF0000",
+      },
+    ];
+
+    // Update options for x-axis categories
+    const updatedOptions = {
+      ...chartConfig.options,
+      xaxis: {
+        ...chartConfig.options.xaxis,
+        categories: months.map(month => new Date(0, month - 1).toLocaleString('default', { month: 'short' })),
+      },
+    };
+
+    return { series: seriesData, options: updatedOptions };
+  };
 
   useEffect(() => {
     fetchTasks();
@@ -107,6 +106,8 @@ function Dashboard() {
       .then((response) => {
         const fetchedTasks = response.data;
         setTasks(fetchedTasks);
+        const taskData = processDataForChart(fetchedTasks);
+        setChartData(taskData);
         const currentDateTime = new Date();
         const declinedTasksCount = fetchedTasks.filter(
           (task) => new Date(task.endDate) < currentDateTime
@@ -161,11 +162,22 @@ function Dashboard() {
             <div className="ml-11 py-7 grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="block w-[232px] h-[148px] bg-[#F4F2FF] rounded-xl ">
                 <div className="mt-3 ml-3 font-bold">Total Tasks</div>
-                <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
+                <div className="mt-4 ml-3 mb-2 font-bold text-xl text-[#64748B]">
                   {totalTasks}
                 </div>
-                <Analytics color="#4BCBEB"></Analytics>
+                <svg
+                className="ml-3"
+            width="201"
+            height="20"
+            viewBox="0 0 201 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect x="0.5" y="0.5" width="200" height="20" rx="4" fill="#DCDCDC" />
+            <rect x="1" y="1" width={`${totalTasks}%`} height="18" rx="4" fill="#4BCBEB" />
+          </svg>
               </div>
+              
               <div className="w-[232px] h-[148px] bg-[#DCDCDC] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Completed Task</div>
                 <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
@@ -182,17 +194,18 @@ function Dashboard() {
               </div>
               <div className="w-[232px] h-[148px] bg-[#E0F6F4] rounded-xl">
                 <div className="mt-3 ml-3 font-bold">Decline Task</div>
-                <div className="mt-3 ml-3 font-bold text-xl text-[#64748B]">
+                <div className="mt-4 ml-3 mb-2 font-bold text-xl text-[#64748B]">
                   {declinedTasks}/{totalTasks}
                 </div>
                 <svg
+                className="ml-3"
             width="201"
             height="20"
             viewBox="0 0 201 20"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect x="0.5" y="0.5" width="200" height="19" rx="4" fill="#DCDCDC" />
+            <rect x="0.5" y="0.5" width="200" height="20" rx="4" fill="#DCDCDC" />
             <rect x="1" y="1" width={`${completionPercentage}%`} height="18" rx="4" fill="#4BCBEB" />
           </svg>
               </div>
@@ -209,7 +222,7 @@ function Dashboard() {
                 className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
               ></CardHeader>
               <CardBody className="px-2 pb-0">
-                <Chart {...chartConfig} />
+                <Chart {...chartData} height={240} width={400} />
               </CardBody>
             </Card>
             <Caldendar />

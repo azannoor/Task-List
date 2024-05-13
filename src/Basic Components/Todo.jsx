@@ -22,7 +22,7 @@ function Todo({ onDelete, onEdit, taskId }) {
         <button>
           <img className="mr-3 h-4" src="src\assets\images\Delete.png" alt="Delete"></img>
         </button>
-        <text className="ml-2">Delete</text>
+        <text className="">Delete</text>
       </div>
       {/* View button */}
       {/* Edit button */}

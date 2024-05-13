@@ -85,8 +85,8 @@ const Menu = () => {
         </div>
         
         {/* Logout button */}
-        <div className="flex mt-3 ml-6 py-3 px-3 md:h-11 md:w-52">
-          <button className={`px-2 font-medium text-sm ${activeLink === '/logout' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
+        <div className="flex mt-[120%] ml-6 py-1 px-3 md:h-11 md:w-52 ">
+          <button className="px-2  w-full bg-[#4BCBEB] rounded-lg text-white relative" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
             Logout
           </button>
         </div>

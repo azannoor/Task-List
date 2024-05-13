@@ -131,9 +131,12 @@ function Users() {
             />
           </svg>
         </button>
+        <div className="absolute mr-7 mt-7">
         {selectedTaskId === item._id && (
                     <Todo onDelete={() => deleteUser(item._id)} onClose={handleTodoClose} />
                   )}
+        </div>
+       
       </div>
     </div>
   );

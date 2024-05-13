@@ -351,9 +351,12 @@ function Tasks() {
                       fill="#4BCBEB"
                     />
                   </svg>
+                  <div className="absolute">
                   {selectedTaskId === item._id && (
                     <Todo onDelete={handleTodoDelete} onClose={handleTodoClose} onEdit={handleEditTask} taskId={item._id}/>
                   )}
+                  </div>
+                 
                 </button>
               </div>
               <p className="px-3">{item.title}</p>
