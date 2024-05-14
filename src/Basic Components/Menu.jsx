@@ -6,6 +6,7 @@ import MenuUser from "../svg components/MenuUser";
 import TaskIcon from "../svg components/TaskIcon";
 import SettingsIcon from "../svg components/SettingsIcon";
 import TitleIcon from "../svg components/TitleIcon";
+import Logout from '../svg components/Logout';
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -86,7 +87,8 @@ const Menu = () => {
         
         {/* Logout button */}
         <div className="flex mt-3  ml-6 py-3 px-3 md:h-19 md:w-52 ">
-          <button className="px-2 h-9 w-full bg-[#4BCBEB] rounded-lg text-white relative" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
+          <Logout/>
+          <button className="px-2 font-medium text-sm text-[#64748B]" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
             Logout
           </button>
         </div>

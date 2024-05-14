@@ -110,9 +110,11 @@ function Users() {
           <div className="lg:h-[450px] overflow-auto">
           {currentItems.map((item, index) => {
             return (
-              <div key={index} className="mb-3 py-3 border-b">
+              <div key={index} className="mb-3 py-3 ">
                 <div className="lg:flex lg:items-center lg:space-x-28 lg:ml-64">
-                  <div className="lg:w-32">{item.name}</div>
+                <div className="lg:w-32">
+      <span className="text-[#0B3B95] border-b border-[#0B3B95] inline-block">{item.name}</span>
+    </div>
                   <div className="lg:w-32">{item.email}</div>
                   <div className="lg:w-40">{item.phoneNumber}</div>
                   <div className="flex justify-end items-center">

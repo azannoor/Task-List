@@ -16,7 +16,7 @@ function Todo({ onDelete, onEdit, taskId }) {
   };
 
   return (
-    <div className=" bg-white border-2 ml-40">
+    <div className=" bg-white border-2 ml-40 ">
       {/* Delete button */}
       <div className="flex mt-2 px-4" onClick={handleDelete}>
         <button>

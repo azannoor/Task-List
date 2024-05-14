@@ -15,6 +15,9 @@ function Modal({ onSubmit }) {
   function crossDisplay() {
     setCross(!cross);
   }
+  function openModal() {
+    setCross(true);
+  }
   
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -145,7 +148,7 @@ function Modal({ onSubmit }) {
               {/* Submit button with loading spinner */}
               <button
   type="submit"
-  className="bg-blue-500 text-white py-2 px-4 ml-40 mt-3 rounded-md relative"
+  className="bg-[#4BCBEB] text-white py-2 px-4 ml-40 mt-3 rounded-md relative"
   style={{ width: "100px", height: "40px" }} // Set fixed dimensions for the button
   disabled={loading} // Disable button when loading is true
 >
