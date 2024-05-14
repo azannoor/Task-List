@@ -17,6 +17,9 @@ const taskSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  attachement: {
+    type: String,
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
