@@ -17,7 +17,7 @@ const taskSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  attachement: {
+  attachment: {
     type: String,
   },
   user: {

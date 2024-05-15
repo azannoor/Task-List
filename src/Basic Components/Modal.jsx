@@ -11,7 +11,10 @@ function Modal({ onSubmit }) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [loading, setLoading] = useState(false); // Add loading state
+  const [attachment, setAttachment] = useState(null);
 
+ 
+  
   function crossDisplay() {
     setCross(!cross);
   }
@@ -19,37 +22,38 @@ function Modal({ onSubmit }) {
     setCross(true);
   }
   
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Set loading to true on form submission
   
-    const token = localStorage.getItem('jsonwebtoken');
-    if (!token) {
-      console.error("No token found in local storage");
-      return;
-    }
+    try {
+      // Create an object to hold the form data
+      const formData = {
+        title,
+        description,
+        startDate,
+        endDate,
+        attachment,
+      };
   
-    axios.post(
-      'http://localhost:3000/api/tasks/addTasks',
-      { title, description, startDate, endDate },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    .then(result => {
-      const newData = { title, description, startDate, endDate };
-      onSubmit(newData);
-      setLoading(false); // Set loading to false after successful submission
-      console.log(result)
-    })
-    .catch(err => {
-      setLoading(false); // Set loading to false if submission is unsuccessful
-      console.log(err);
-    });
+      // Call the onSubmit prop with the form data
+      await onSubmit(formData);
+      console.log("Form submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setLoading(false); // Always set loading to false after submission (whether successful or not)
+    }
   };
+  
+  
+    
+  
+  
+  function handleFileSelect(event) {
+    const selectedFile = event.target.files[0];
+    setAttachment(selectedFile);
+  }
   
 
   return (
@@ -119,7 +123,7 @@ function Modal({ onSubmit }) {
               <input
                 type="file"
                 name="attachment"
-             
+                onChange={handleFileSelect}
                 className="w-full h-40 border border-gray-300 rounded-md py-1 px-3"
                 
               />
@@ -154,11 +158,14 @@ function Modal({ onSubmit }) {
 >
   {loading && (
     <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-      <FontAwesomeIcon icon={faSpinner} className="fa-spin text-white" />
+      <FontAwesomeIcon
+        icon={faSpinner}
+        className="fa-spin text-white"
+      />
     </div>
   )}
-                {!loading && "Submit"}
-              </button>
+  {!loading && "Submit"}
+</button>
             </form>
           </div>
         </div>

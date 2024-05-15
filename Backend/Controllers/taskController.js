@@ -47,7 +47,7 @@ export const createTask = async (req, res) => {
       description,
       startDate,
       endDate,
-      attachement: req.file.path,
+      attachment: req.file.path,
       user: req.user._id // Associate the task with the authenticated user
     });
     const newTask = await task.save();

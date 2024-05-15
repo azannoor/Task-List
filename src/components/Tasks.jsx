@@ -161,21 +161,30 @@ function Tasks() {
   }
   
   function handleModalSubmit(data) {
+    
     const token = localStorage.getItem('jsonwebtoken');
     if (!token) {
       console.error("No token found in local storage");
       return;
     }
+    const formData = new FormData(); 
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("startDate", data.startDate);
+    formData.append("endDate", data.endDate);
+    formData.append("attachment", data.attachment);
   
     axios
-      .post("http://localhost:3000/api/tasks/addTasks", data, {
+      .post("http://localhost:3000/api/tasks/addTasks", formData, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         }
       })
       .then((response) => {
-        setSubmittedData([...submittedData, data]);
-        setFilteredTasks([...filteredTasks, data]);
+        const newTask = response.data;
+        setSubmittedData([...submittedData, newTask]);
+        setFilteredTasks([...filteredTasks, newTask]);
         setShowModal(false);
         console.log(response)
       })
@@ -380,14 +389,10 @@ function Tasks() {
               <div className="text-sm font-bold mt-2 px-3">Description:</div>
               <div className="px-3">{item.description}</div>
               <div className="text-sm font-bold mt-2 px-3">Attachment:</div>
-              <div className="ml-3 mr-3">
-              <img
-                src={imageOne}
-                alt="Attachment"
-                className="mt-1  w-full h-24 object-cover rounded-lg"
-              />
-              </div>
-              
+              <div className=" mx-auto w-[80%] h-32">
+              <img className="w-full h-24 object-cover" src={"http://localhost:3000/" + item.attachment} />
+
+        </div>
               <div className="flex justify-between mt-2">
                 <div className="text-sm font-bold px-3">Start Date:</div>
                 <div className="text-sm font-bold mr-3">End Date:</div>
