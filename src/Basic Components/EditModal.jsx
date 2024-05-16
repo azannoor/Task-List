@@ -8,6 +8,7 @@ function EditModal({ task, onSubmit, onClose }) {
   const [editedTask, setEditedTask] = useState({ ...task });
   const [loading, setLoading] = useState(false);
   const [cross, setCross] = useState(true);
+  const [file, setFile] = useState(null);
 
   const crossDisplay = () => {
     setCross((prevCross) => !prevCross); // Toggle cross state
@@ -20,6 +21,9 @@ function EditModal({ task, onSubmit, onClose }) {
       ...prevTask,
       [name]: value,
     }));
+  };
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]); // Store the selected file in the state
   };
 
   const handleSubmit = (e) => {

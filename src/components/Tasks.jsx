@@ -48,19 +48,9 @@ function Tasks() {
       return;
     }
   
-    const formData = new FormData();
-    formData.append("title", editedTask.title);
-    formData.append("description", editedTask.description);
-    formData.append("startDate", editedTask.startDate);
-    formData.append("endDate", editedTask.endDate);
-    if (editedTask.attachment) {
-      formData.append("attachment", editedTask.attachment); // Only append if a file is selected
-    }
-  
-    axios.put(`http://localhost:3000/api/tasks/${editedTask._id}`, formData, {
+    axios.put(`http://localhost:3000/api/tasks/${editedTask._id}`, editedTask, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
+        'Authorization': `Bearer ${token}`
       }
     })
     .then((response) => {
@@ -71,15 +61,19 @@ function Tasks() {
         if (task._id === editedTask._id) {
           return {
             ...task,
-            ...response.data, // Use the updated data from the server response
+            title: editedTask.title,
+            description: editedTask.description,
+            startDate:editedTask.startDate,
+            endDate:editedTask.endDate,
+            
+            // Update other properties as needed
           };
         }
         return task;
       });
       setSubmittedData(updatedTasks);
-      setFilteredTasks(updatedTasks); 
-      fetchTasks
-      // Update state with edited task data
+      setFilteredTasks(updatedTasks); // Update state with edited task data
+      
       setShowEditModal(false); // Close edit modal after successful submission
     })
     .catch((error) => {
@@ -89,13 +83,20 @@ function Tasks() {
   
   
   
-  const colors = [
-    "bg-red-500",
-    "bg-blue-500",
-    "bg-yellow-500",
-    "bg-green-500",
-    "bg-purple-500",
-  ];
+  const getTaskColor = (endDate) => {
+    const currentDate = new Date();
+    const taskEndDate = new Date(endDate);
+    const timeDiff = taskEndDate - currentDate;
+    const dayDiff = timeDiff / (1000 * 3600 * 24);
+
+    if (dayDiff < 0) {
+      return "bg-red-500";
+    } else if (dayDiff <= 3) {
+      return "bg-yellow-500";
+    } else {
+      return "bg-green-500";
+    }
+  };
 
   const getRandomColor = () => {
     const randomIndex = Math.floor(Math.random() * colors.length);
@@ -305,10 +306,10 @@ function Tasks() {
         <div className="px-4 md:px-16 mt-7">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex">
-            <div className="w-full md:w-60 mb-4 md:mb-0">
-              <h1 className="font-bold">Start Date:</h1>
+            <div className="w-full md:w-60 mb-4 md:mb-0 ">
+              <h1 className="font-bold ">Start Date:</h1>
               <input
-                className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
+                className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg border-[0.1px] border-[#4BCBEB]"
                 type="date"
                 placeholder="15-Apr-2024"
                 value={startDate}
@@ -320,7 +321,7 @@ function Tasks() {
             <div className="w-full md:w-60 items-center justify-between mb-4 md:mb-0">
               <h1 className="font-bold">End Date:</h1>
               <input
-                className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg"
+                className="px-3 w-full md:w-4/5 h-10 mt-2 rounded-lg border-[0.1px] border-[#4BCBEB]"
                 type="date"
                 placeholder="15-Apr-2024"
                 value={endDate}
@@ -342,7 +343,7 @@ function Tasks() {
           <h1 className="mt-5 font-bold">Enter Title:</h1>
           <div className="flex">
             <input
-              className="px-3 w-full md:w-[31%] h-10 mt-2 rounded-l-lg"
+              className="px-3 w-full md:w-[31%] h-10 mt-2 rounded-l-lg "
               type="search"
               placeholder="Search"
               value={searchQuery}
@@ -364,7 +365,7 @@ function Tasks() {
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-11 px-4 md:px-16">
           {filteredTasks.map((item, index) => (
             <div key={index} className="bg-white  rounded-xl  shadow-md relative">
-              <div className={`h-6 mb-4 ${getRandomColor()} rounded-t-xl`} />
+              <div className={`h-6 mb-4 ${getTaskColor(item.endDate)} rounded-t-xl`} />
 
               <div className="flex">
                 <p className="text-sm font-bold px-3">Title:</p>
