@@ -48,9 +48,19 @@ function Tasks() {
       return;
     }
   
-    axios.put(`http://localhost:3000/api/tasks/${editedTask._id}`, editedTask, {
+    const formData = new FormData();
+    formData.append("title", editedTask.title);
+    formData.append("description", editedTask.description);
+    formData.append("startDate", editedTask.startDate);
+    formData.append("endDate", editedTask.endDate);
+    if (editedTask.attachment) {
+      formData.append("attachment", editedTask.attachment); // Only append if a file is selected
+    }
+  
+    axios.put(`http://localhost:3000/api/tasks/${editedTask._id}`, formData, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       }
     })
     .then((response) => {
@@ -61,21 +71,22 @@ function Tasks() {
         if (task._id === editedTask._id) {
           return {
             ...task,
-            title: editedTask.title,
-            description: editedTask.description,
-            // Update other properties as needed
+            ...response.data, // Use the updated data from the server response
           };
         }
         return task;
       });
       setSubmittedData(updatedTasks);
-      setFilteredTasks(updatedTasks); // Update state with edited task data
+      setFilteredTasks(updatedTasks); 
+      fetchTasks
+      // Update state with edited task data
       setShowEditModal(false); // Close edit modal after successful submission
     })
     .catch((error) => {
       console.error("Error updating task:", error);
     });
   };
+  
   
   
   const colors = [

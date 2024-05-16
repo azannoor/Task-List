@@ -10,6 +10,7 @@ import Notifications from './components/Notifications';
 import Tasks from './components/Tasks';
 import Hello from './components/Hello'
 import PrivateRoute from './components/PrivateRoute' // import the PrivateRoute component
+import MainDash from './components/MainDash';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/" element={<Signup/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route index element={<Dashboard/>} />
+          <Route index element={<MainDash/>} />
         </Route>
         <Route path="/users" element={<PrivateRoute />}>
           <Route index element={<Users/>} />

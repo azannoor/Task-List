@@ -4,7 +4,7 @@ function TitleIcon() {
   return (
     <>
      <svg
-        className="mt-6 ml-6"
+        className="mt-6 ml-6 "
         width="200"
         height="2"
         viewBox="0 0 218 2"

@@ -46,49 +46,56 @@ const Menu = () => {
   }, []); // Empty dependency array ensures this effect runs only once on component mount
 
   return (
-    <div className="md:min-h-screen flex flex-col md:flex-row bg-white shadow h-full ">
-      <div className="md:w-64 bg-white shadow md:flex-shrink-0"> {/* Added md:flex-shrink-0 */}
-        <div className="mt-5 flex items-center justify-center">
+    <div className="md:min-h-screen flex flex-col md:flex-row bg-white shadow h-full w-[20%] md:w-[16%]">
+      <div className="md:w-64  bg-white shadow md:flex-shrink-0 "> {/* Added md:flex-shrink-0 */}
+        <div className="mt-5  flex items-center justify-center">
           <TaskList />
-          <h1 className="px-3 font-bold text-lg text-[#4BCBEB]">
+          <h1 className="px-3 font-bold hidden md:block text-lg text-[#4BCBEB]">
             Task List Manager
           </h1>
         </div>
         <TitleIcon />
-        <p className="mt-6 ml-7 font-bold text-sm text-black">MENU</p>
+        <p className="mt-6 md:ml-7 ml-6 font-bold text-sm text-black">MENU</p>
 
-        <div className="mt-7 ml-6 py-3 px-3 md:h-11 md:w-52 bg-white rounded-xl flex  ">
+        <div className="mt-7 md:ml-6 ml-3 py-3 px-3 md:h-11 md:w-52 bg-white rounded-xl flex  ">
+          
+          
+          <Link to="/dashboard" className={`flex ml-2 ${activeLink === '/dashboard' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/dashboard')}>
+          <button>
           <Dashboard color={activeLink === '/dashboard' ? '#4BCBEB' : '#64748B'} />
-          <Link to="/dashboard" className={`ml-2 ${activeLink === '/dashboard' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/dashboard')}>
-            <button className="px-2 font-bold text-sm">Dashboard</button>
+          </button>
+            <button className="px-2 font-bold text-sm hidden md:block">Dashboard</button>
           </Link>
         </div>
         {userRole === 'admin' && (
-          <div className="flex mt-3 ml-6 py-3 px-3 md:h-11 md:w-52">
-            <MenuUser color={activeLink === '/users' ? '#4BCBEB' : '#64748B'} />
-            <Link to="/users" className={`ml-2 ${activeLink === '/users' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/users')}>
-              <button className="px-2 font-medium text-sm">Users</button>
+          <div className="flex mt-3 md:ml-6 ml-3 py-3 px-3 md:h-11 md:w-52">
+            
+            <Link to="/users" className={`flex ml-2 ${activeLink === '/users' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/users')}>
+              <button><MenuUser color={activeLink === '/users' ? '#4BCBEB' : '#64748B'} /></button>
+              <button className="px-2 font-medium text-sm hidden md:block">Users</button>
             </Link>
           </div>
         )}
         
-        <div className="flex mt-3 ml-6 py-3 px-3 md:h-11 md:w-52">
-          <TaskIcon color={activeLink === '/tasks' ? '#4BCBEB' : '#64748B'} />
-          <Link to="/tasks" className={`ml-2 ${activeLink === '/tasks' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/tasks')}>
-            <button className="px-2 font-medium text-sm">Tasks</button>
+        <div className="flex mt-3 md:ml-6 ml-3 py-3 px-3 md:h-11 md:w-52">
+          
+          <Link to="/tasks" className={`flex ml-2 ${activeLink === '/tasks' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/tasks')}>
+            <button><TaskIcon color={activeLink === '/tasks' ? '#4BCBEB' : '#64748B'} /></button>
+            <button className="px-2 font-medium text-sm hidden md:block">Tasks</button>
           </Link>
         </div>
-        <div className="flex mt-3 ml-6 py-3 px-3 md:h-11 md:w-52">
-          <SettingsIcon color={activeLink === '/settings' ? '#4BCBEB' : '#64748B'} />
-          <Link to="/settings" className={`ml-2 ${activeLink === '/settings' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/settings')}>
-            <button className="px-2 font-medium text-sm">Settings</button>
+        <div className="flex mt-3 md:ml-6 ml-3 py-3 px-3 md:h-11 md:w-52">
+          
+          <Link to="/settings" className={`flex ml-2 ${activeLink === '/settings' ? 'text-[#4BCBEB]' : 'text-[#64748B]'}`} onClick={() => handleSetActiveLink('/settings')}>
+            <button><SettingsIcon color={activeLink === '/settings' ? '#4BCBEB' : '#64748B'} /></button>
+            <button className="px-2 font-medium text-sm hidden md:block">Settings</button>
           </Link>
         </div>
         
         {/* Logout button */}
-        <div className="flex mt-3  ml-6 py-3 px-3 md:h-19 md:w-52 ">
+        <div className="flex mt-3  md:ml-8 ml-5 py-3 px-3 md:h-19 md:w-52 ">
           <Logout/>
-          <button className="px-2 font-medium text-sm text-[#64748B]" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
+          <button className="px-1 font-medium text-sm text-[#64748B] hidden md:block" onClick={() => {handleLogout(); handleSetActiveLink('/logout');}}>
             Logout
           </button>
         </div>

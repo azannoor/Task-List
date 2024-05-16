@@ -119,6 +119,7 @@ function EditModal({ task, onSubmit, onClose }) {
           <input
             type="file"
             name="attachment"
+            
             className="w-full h-40 border border-gray-300 rounded-md py-1 px-3"
           />
           <div className="flex">

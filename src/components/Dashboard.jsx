@@ -118,12 +118,10 @@ function Dashboard() {
   const pendingTask = 0
 
   return (
-    <div className="flex flex-col md:flex-row h-screen">
-      <div className="w-full md:w-64 ">
-        <Menu />
-      </div>
+    <div className="flex flex-col md:flex-row h-screen ">
+      
 
-      <div className="w-full px-4 md:px-0 flex-grow bg-[#F6F8FA]">
+      <div className="w-full px-9  md:px-0  bg-[#F6F8FA]">
         <Header name="Dashboard" />
         <div className="mt-11 mx-4 md:mx-0 md:w-full md:max-w-[calc(100%-64px)] md:mx-auto h-auto md:h-[600px] bg-white rounded-xl border-[1.45px] border-[#4BCBEB] shadow-md">
 

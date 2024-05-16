@@ -96,9 +96,9 @@ function Signup() {
                   placeholder="Password"
                 />
                 <ErrorMessage name="password" component="div" className="pb-2 text-xs text-red-500" />
-
+                <div className="flex ">
                 <div className="pb-10">
-                  <input className="mr-2 h-4 w-3" type="checkbox" />
+                  <input className="mr-2 h-3 w-3" type="checkbox" />
                   <label className="text-xs text-slate-500">
                     {" "}
                     By creating an account means you agree to the{" "}
@@ -109,6 +109,8 @@ function Signup() {
                     </span>
                   </label>
                 </div>
+                </div>
+                
                 <button
                   className="px-2  w-full bg-[#4BCBEB] rounded-lg text-white relative"
                   type="submit"

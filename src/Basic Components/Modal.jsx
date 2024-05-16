@@ -22,28 +22,30 @@ function Modal({ onSubmit }) {
     setCross(true);
   }
   
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     setLoading(true); // Set loading to true on form submission
   
-    try {
-      // Create an object to hold the form data
-      const formData = {
-        title,
-        description,
-        startDate,
-        endDate,
-        attachment,
-      };
+    // Create an object to hold the form data
+    const formData = {
+      title,
+      description,
+      startDate,
+      endDate,
+      attachment,
+    };
   
-      // Call the onSubmit prop with the form data
-      await onSubmit(formData);
-      console.log("Form submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setLoading(false); // Always set loading to false after submission (whether successful or not)
-    }
+    // Call the onSubmit prop with the form data
+    onSubmit(formData)
+      .then(() => {
+        console.log("Form submitted successfully!");
+      })
+      .catch((error) => {
+        console.error("Error submitting form:", error);
+      })
+      .finally(() => {
+        setLoading(false); // Always set loading to false after submission (whether successful or not)
+      });
   };
   
   

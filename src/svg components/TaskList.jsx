@@ -5,6 +5,7 @@ function TaskList(props) {
   return (
     <>
       <svg
+      className='hidden md:block'
           width="34"
           height="34"
           viewBox="0 0 34 34"
